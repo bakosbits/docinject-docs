@@ -43,7 +43,7 @@
         d="M 29.5,136.5 C 30.6085,135.71 31.9419,135.21 33.5,135 C 32.5,134.667 31.5,134.333 30.5,134 C 34.5116,132.197 34.1782,131.197 29.5,131 C 61.336,130.832 93.0026,130.332 124.5,129.5 C 124.5,119.167 124.5,108.833 124.5,98.5 C 126.833,98.5 129.167,98.5 131.5,98.5 C 131.667,109.172 131.5,119.839 131,130.5 C 130.167,134 128,136.167 124.5,137 C 92.664,137.831 60.9973,137.664 29.5,136.5 Z"
     />
 
-    <text font-family="Inter, sans-serif" font-weight="700" font-size="68" dominant-baseline="middle" y="83" style="stroke: none; opacity: 1; text-anchor: start;">
+<text font-family="Inter, sans-serif" font-weight="700" font-size="68" dominant-baseline="middle" y="83" style="stroke: none; opacity: 1; text-anchor: start; letter-spacing: 0px; word-spacing: 0px; font-kerning: none;">
         <tspan x="160" fill="#3f3f46">Doc</tspan><tspan dx="0" fill="#ea580c">Inject</tspan>
     </text>
 </svg>
