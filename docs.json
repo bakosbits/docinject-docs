@@ -8,7 +8,10 @@
     "light": "#FAFAFA",
     "dark": "#3F3F46"
   },
-  "favicon": "/images/favicon.ico",
+  "favicon": {
+    "light": "/images/favicon.ico",
+    "dark": "/images/favicon.ico"
+  },
     "fonts": {
     "family": "Inter",
     "weight": 600
@@ -123,7 +126,8 @@
   },
   "logo": {
     "light": "/images/docinject_logo_light.png",
-    "dark": "/images/docinject_logo_dark.png"
+    "dark": "/images/docinject_logo_dark.png",
+    "href": "https://docinject.com"
   },
   "navbar": {
     "links": [],
@@ -141,5 +145,13 @@
   },
   "interaction": {
     "drilldown": true
+  },
+  "appearance": {
+    "default": "light"
+  },
+  "background": {
+    "color": {
+      "dark": "#27272A"
+    }
   }
 }
