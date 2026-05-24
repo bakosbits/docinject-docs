@@ -1,14 +1,18 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "almond",
+  "theme": "aspen",
   "name": "DocInject",
   "description": "DocInject helps teams create, manage, and deploy SOPs, playbooks, and guides into the tools and workflows they already use.",
   "colors": {
-    "primary": "#f1d262",
-    "light": "#7c6c34",
+    "primary": "#ea580c",
+    "light": "#FAFAFA",
     "dark": "#19160b"
   },
-  "favicon": "https://icons.duckduckgo.com/ip3/babeljs.io.ico",
+  "favicon": "/images/favicon.ico",
+    "fonts": {
+    "family": "Inter",
+    "weight": 700
+  },
   "icons": {
     "library": "lucide"
   },
@@ -139,15 +143,15 @@
     ]
   },
   "logo": {
-    "light": "https://media.brand.dev/60a90780-779d-4b80-a52e-b7b5166da58e.png",
-    "dark": "https://media.brand.dev/60a90780-779d-4b80-a52e-b7b5166da58e.png"
+    "light": "/images/docinject_logo_light.svg",
+    "dark": "/images/docinject_logo_dark.svg"
   },
   "navbar": {
     "links": [],
     "primary": {
       "type": "button",
       "label": "Sign Up",
-      "href": "https://app.docinject.io/signup"
+      "href": "https://docinject.com/signup"
     }
   },
   "footer": {
