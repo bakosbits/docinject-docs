@@ -103,16 +103,16 @@ body:has([data-product-guide-index]) #sidebar a.nav-anchor[href='/'] svg {
   justify-content: space-between !important;
   min-height: 260px;
   
-  /* 1. Use contain layout and point to your new PNG asset */
-  background: url('/images/doc_banner.png') center center / contain no-repeat !important;
+  /* FIXED: Shifting the image 55px down from the top boundary */
+  background: url('/images/doc_banner.png') center 55px / contain no-repeat !important;
   
   border: none !important;
   box-shadow: none !important;
   color: white !important;
   
-  /* 2. Explicitly mirror the configuration for the dark mode class */
   .dark & {
-    background: url('/images/doc_banner.png') center center / contain no-repeat !important;
+    /* FIXED: Keep the 55px top offset locked in dark mode too */
+    background: url('/images/doc_banner.png') center 55px / contain no-repeat !important;
   }
 }
 
