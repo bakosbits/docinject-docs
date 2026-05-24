@@ -9,7 +9,7 @@ All protected DocInject API endpoints require a Bearer token in the `Authorizati
 
 All API v1 endpoints are served from:
 
-```
+```text
 https://api.docinject.com/{org_slug}/inbox
 ```
 
@@ -23,13 +23,12 @@ https://api.docinject.com/{org_slug}/inbox
     - Never expire until you delete them
     - Scoped to your organization
     - The raw key value is shown only once at creation — copy it immediately
-
   </Accordion>
+
   <Accordion title="Session tokens">
     Session tokens are short-lived JWTs issued by the DocInject web application after a user logs in. The web app uses these automatically on every request.
 
     You don't need session tokens to build integrations. Use an API key instead.
-
   </Accordion>
 </AccordionGroup>
 
@@ -90,16 +89,6 @@ HTTP 401 Unauthorized
 <Warning>
   Keep your API keys secret. Never commit them to source control or expose them in client-side code. If a key is compromised, delete it immediately in **Settings → API Keys** and create a replacement.
 </Warning>
-
-## Public endpoint (no auth required)
-
-One endpoint is publicly accessible without a token — fetching a published document by share token:
-
-```
-GET https://app.docinject.com/embed/{org_slug}/{token}
-```
-
-This returns the published content of a document that has been shared via a share link. No `Authorization` header is needed.
 
 <Note>
   Your organization's `org_slug` appears in **Settings → Organization**. You'll need it for org-scoped endpoints throughout the API.

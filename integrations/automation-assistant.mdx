@@ -51,11 +51,13 @@ The assistant produces a step-by-step recipe written in the native vocabulary of
   <Accordion title="Notify a Slack channel when a document is published">
     Set up a `document.published` webhook, then use the assistant with your Slack workspace as the goal. The recipe will trigger on the webhook, verify the signature, extract the document title and URL from the payload, and post a formatted message to a channel of your choice.
   </Accordion>
+
   <Accordion title="Trigger an onboarding flow when an SOP is revised">
     Select your onboarding SOP, choose the `document.revised` event, and describe the downstream action (for example, reassigning tasks in your project tool or sending an email to new hires). The recipe references `data.previous_version_id` so you can compare versions.
   </Accordion>
+
   <Accordion title="Poll the inbox to sync documents to a CRM or knowledge base">
-    If you can't use webhooks, describe a polling automation and the assistant will generate a scheduled recipe that calls `GET /api/v1/organizations/{org_slug}/inbox` with your API key and upserts the results into your target system.
+    If you can't use webhooks, describe a polling automation and the assistant will generate a scheduled recipe that calls `GET https://api.docinject/{org_slug}/inbox` with your API key and upserts the results into your target system.
   </Accordion>
 </AccordionGroup>
 

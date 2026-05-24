@@ -7,36 +7,24 @@ Use these endpoints to read documents from your DocInject organization. You can 
 
 ## List documents
 
-```
+```text
 GET https://api.docinject.com/{org_slug}/inbox
 ```
 
-Returns an array of documents. By default, only documents you own are returned. Pass `filter=shared` to list documents where you are assigned as editor instead.
-
-### Query parameters
-
-<ParamField query="filter" type="string" default="owned">
-  Which documents to return. `owned` returns documents you created. `shared` returns documents where you are assigned as editor.
-
-  Accepted values: `owned`, `shared`
-</ParamField>
-
-<ParamField query="limit" type="number">
-  Maximum number of documents to return. Omit to return all documents.
-</ParamField>
+Returns an array of documents.
 
 ### Example request
 
 <CodeGroup>
 
 ```bash curl
-curl "https://api.docinject.com/{org_slug}/inbox?filter=owned&limit=25" \
+curl "https://api.docinject.com/{org_slug}/inbox" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ```javascript JavaScript
 const res = await fetch(
-  'https://api.docinject.com/{org_slug}/inbox?filter=owned&limit=25',
+  'https://api.docinject.com/{org_slug}/inbox',
   {
     headers: {
       Authorization: `Bearer ${process.env.DOCINJECT_API_KEY}`,
@@ -51,7 +39,6 @@ import os, requests
 
 res = requests.get(
     'https://api.docinject.com/{org_slug}/inbox',
-    params={'filter': 'owned', 'limit': 25},
     headers={'Authorization': f'Bearer {os.environ["DOCINJECT_API_KEY"]}'},
 )
 documents = res.json()
@@ -67,156 +54,15 @@ Returns `200 OK` with an array of document objects.
   Unique identifier for the document.
 </ResponseField>
 
-<ResponseField name="organization_id" type="string" required>
-  ID of the organization that owns this document.
-</ResponseField>
-
-<ResponseField name="created_by" type="string" required>
-  User ID of the document owner.
-</ResponseField>
-
-<ResponseField name="editor_id" type="string">
-  User ID of the assigned editor, if any.
-</ResponseField>
-
-<ResponseField name="parent_doc_id" type="string">
-  ID of the previous published version this document was revised from. Present only on revision drafts.
-</ResponseField>
-
-<ResponseField name="title" type="string" required>
-  Document title.
-</ResponseField>
-
-<ResponseField name="version" type="string" required>
-  Version label, for example `1.0` or `Q2-2025`.
-</ResponseField>
-
-<ResponseField name="department" type="string" required>
-  Department or team this document belongs to.
-</ResponseField>
-
-<ResponseField name="status" type="string" required>
-  Current lifecycle status: `draft`, `published`, or `archived`.
-</ResponseField>
-
-<ResponseField name="published_at" type="string">
-  ISO 8601 timestamp of when the document was last published. `null` for drafts.
-</ResponseField>
-
-<ResponseField name="created_at" type="string" required>
-  ISO 8601 timestamp of when the document was created.
-</ResponseField>
-
-<ResponseField name="updated_at" type="string" required>
-  ISO 8601 timestamp of the last update.
-</ResponseField>
-
-<ResponseField name="nodes" type="object[]">
-  Full node tree. This field is always an empty array on list responses — fetch a single document to get the complete tree.
-</ResponseField>
-
-```json 200
-[
-  {
-    "id": "doc_01hxyz1a2b3c4d5e6f7g8h9j",
-    "organization_id": "org_01habcdefghijklmnopqrstu",
-    "created_by": "usr_01ha1b2c3d4e5f6g7h8i9j0k",
-    "editor_id": null,
-    "parent_doc_id": null,
-    "title": "Employee Onboarding Checklist",
-    "version": "2.1",
-    "department": "People Operations",
-    "status": "published",
-    "published_at": "2025-04-10T14:32:00.000Z",
-    "created_at": "2025-03-01T09:00:00.000Z",
-    "updated_at": "2025-04-10T14:32:00.000Z",
-    "nodes": []
-  },
-  {
-    "id": "doc_01hyza9b8c7d6e5f4g3h2j1k",
-    "organization_id": "org_01habcdefghijklmnopqrstu",
-    "created_by": "usr_01ha1b2c3d4e5f6g7h8i9j0k",
-    "editor_id": "usr_01hb2c3d4e5f6g7h8i9j0k1l",
-    "parent_doc_id": "doc_01hxyz1a2b3c4d5e6f7g8h9j",
-    "title": "Employee Onboarding Checklist",
-    "version": "2.2",
-    "department": "People Operations",
-    "status": "draft",
-    "published_at": null,
-    "created_at": "2025-04-15T10:00:00.000Z",
-    "updated_at": "2025-05-01T16:45:00.000Z",
-    "nodes": []
-  }
-]
-```
-
----
-
-## Get document counts
-
-```
-GET https://api.docinject.com/{org_slug}/inbox/counts
-```
-
-Returns a count of your documents broken down by status. Use this to build dashboards or status summaries without fetching the full document list.
-
-### Example request
-
-<CodeGroup>
-
-```bash curl
-curl "https://api.docinject.com/{org_slug}/inbox/counts" \
-  -H "Authorization: Bearer YOUR_API_KEY"
-```
-
-```javascript JavaScript
-const res = await fetch('https://api.docinject.com/{org_slug}/inbox/counts', {
-  headers: { Authorization: `Bearer ${process.env.DOCINJECT_API_KEY}` },
-});
-const counts = await res.json();
-```
-
-</CodeGroup>
-
-### Response
-
-Returns `200 OK` with an object containing counts for each status.
-
-<ResponseField name="draft" type="number" required>
-  Number of documents in draft status.
-</ResponseField>
-
-<ResponseField name="published" type="number" required>
-  Number of published documents.
-</ResponseField>
-
-<ResponseField name="archived" type="number" required>
-  Number of archived documents.
-</ResponseField>
-
-```json 200
-{
-  "draft": 4,
-  "published": 17,
-  "archived": 3
-}
-```
-
 ---
 
 ## Get a single document
 
-```
+```text
 GET https://api.docinject.com/{org_slug}/inbox/{doc_id}
 ```
 
-Returns a single document including its complete node tree — sections, steps, and sub-steps — sorted by `order`.
-
-### Path parameters
-
-<ParamField path="doc_id" type="string" required>
-  The ID of the document to retrieve.
-</ParamField>
+Returns a single document.
 
 ### Example request
 
@@ -253,93 +99,7 @@ doc = res.json()
 
 ### Response
 
-Returns `200 OK` with a document object. The `nodes` field contains the full content tree — each node may have a `children` array with nested nodes of the next level.
-
-<ResponseField name="nodes" type="object[]">
-  Ordered array of top-level section nodes. Each section contains `children` (steps), and each step may contain `children` (sub-steps).
-
-  <Expandable title="node properties">
-    <ResponseField name="id" type="string" required>
-      Unique node identifier.
-    </ResponseField>
-    <ResponseField name="document_id" type="string" required>
-      ID of the parent document.
-    </ResponseField>
-    <ResponseField name="parent_id" type="string">
-      ID of the parent node. `null` for top-level sections.
-    </ResponseField>
-    <ResponseField name="node_type" type="string" required>
-      Type of node: `section`, `step`, or `sub_step`.
-    </ResponseField>
-    <ResponseField name="title" type="string" required>
-      Node title.
-    </ResponseField>
-    <ResponseField name="content" type="object">
-      Rich text content stored as structured JSON. `null` if no content has been added.
-    </ResponseField>
-    <ResponseField name="order" type="number" required>
-      Sort position among siblings. Nodes are returned pre-sorted by this value.
-    </ResponseField>
-    <ResponseField name="created_by" type="string" required>
-      User ID of the member who created this node.
-    </ResponseField>
-    <ResponseField name="created_at" type="string" required>
-      ISO 8601 creation timestamp.
-    </ResponseField>
-    <ResponseField name="updated_at" type="string" required>
-      ISO 8601 last-updated timestamp.
-    </ResponseField>
-    <ResponseField name="children" type="object[]" required>
-      Nested child nodes, sorted by `order`. Empty array if there are no children.
-    </ResponseField>
-  </Expandable>
-</ResponseField>
-
-```json 200
-{
-  "id": "doc_01hxyz1a2b3c4d5e6f7g8h9j",
-  "organization_id": "org_01habcdefghijklmnopqrstu",
-  "created_by": "usr_01ha1b2c3d4e5f6g7h8i9j0k",
-  "editor_id": null,
-  "parent_doc_id": null,
-  "title": "Employee Onboarding Checklist",
-  "version": "2.1",
-  "department": "People Operations",
-  "status": "published",
-  "published_at": "2025-04-10T14:32:00.000Z",
-  "created_at": "2025-03-01T09:00:00.000Z",
-  "updated_at": "2025-04-10T14:32:00.000Z",
-  "nodes": [
-    {
-      "id": "node_01ha1b2c3d4e5f6g",
-      "document_id": "doc_01hxyz1a2b3c4d5e6f7g8h9j",
-      "parent_id": null,
-      "node_type": "section",
-      "title": "Before Day One",
-      "content": null,
-      "order": 1,
-      "created_by": "usr_01ha1b2c3d4e5f6g7h8i9j0k",
-      "created_at": "2025-03-01T09:05:00.000Z",
-      "updated_at": "2025-03-01T09:05:00.000Z",
-      "children": [
-        {
-          "id": "node_01hb2c3d4e5f6g7h",
-          "document_id": "doc_01hxyz1a2b3c4d5e6f7g8h9j",
-          "parent_id": "node_01ha1b2c3d4e5f6g",
-          "node_type": "step",
-          "title": "Send welcome email",
-          "content": null,
-          "order": 1,
-          "created_by": "usr_01ha1b2c3d4e5f6g7h8i9j0k",
-          "created_at": "2025-03-01T09:06:00.000Z",
-          "updated_at": "2025-03-01T09:06:00.000Z",
-          "children": []
-        }
-      ]
-    }
-  ]
-}
-```
+Returns `200 OK` with a document object.
 
 <Note>
   The API returns `404 Not Found` if the document does not exist or belongs to a different organization than your API key.

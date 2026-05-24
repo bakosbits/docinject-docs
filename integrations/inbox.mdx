@@ -17,16 +17,16 @@ All inbox endpoints require authentication via an API key or a user session toke
 
 Returns all published document payloads for the organization, most recent first.
 
-```
-GET /api/v1/organizations/{org_slug}/inbox
+```text
+GET https://api.docinject.com/{org_slug}/inbox
 ```
 
 ### Get a single inbox entry
 
 Returns the current inbox entry for a specific document.
 
-```
-GET /api/v1/organizations/{org_slug}/inbox/{document_id}
+```text
+GET https://api.docinject.com/{org_slug}/inbox/{document_id}
 ```
 
 <Note>
@@ -81,20 +81,20 @@ For revised documents, `payload.event_type` is `document.revised` and `payload.d
 ## Fetch the inbox with an API key
 
 ```bash
-curl https://api.docinject.io/api/v1/organizations/acme/inbox \
+curl https://api.docinject.com/{org_slug}/inbox \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ```bash
 # Fetch a single document's inbox entry
-curl https://api.docinject.io/api/v1/organizations/acme/inbox/72a7b832-e878-4ebb-9d5f-e73b3d27b43c \
+curl https://api.docinject.com/{org_slug}/inbox/72a7b832-e878-4ebb-9d5f-e73b3d27b43c \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ## When to use the inbox vs. webhooks
 
-| | Inbox (polling) | Webhooks |
-|---|---|---|
+|  | Inbox (polling) | Webhooks |
+| --- | --- | --- |
 | **Plan required** | Any plan | Scale |
 | **Delivery model** | Pull — you fetch on a schedule | Push — DocInject sends to your URL |
 | **Setup complexity** | Low — one API call | Medium — requires a public endpoint |

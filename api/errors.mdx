@@ -20,7 +20,7 @@ The `detail` value is a human-readable string. It changes with each error type, 
 ## HTTP status codes
 
 | Status | Meaning |
-|--------|---------|
+| --- | --- |
 | `200 OK` | Request succeeded. |
 | `201 Created` | Resource was successfully created. |
 | `204 No Content` | Request succeeded with no response body (for example, a delete operation). |
@@ -79,21 +79,19 @@ if not res.ok:
 
     **Fix:** verify your API key is correct and that you're setting the `Authorization` header on the request.
   </Accordion>
+
   <Accordion title="403 — insufficient permissions">
     You'll receive a `403` when your token is valid but the action requires a role you don't have. For example, only organization admins can invite members, change member roles, or view documents owned by other members.
 
     **Fix:** check that the API key belongs to a user with the required role, or contact your organization admin.
   </Accordion>
+
   <Accordion title="400 — bad request">
     You'll receive a `400` when the request body is malformed or a required field is missing. The `detail` field will describe what's wrong — for example, `"count must be 1–100"`.
 
     **Fix:** validate your request payload against the endpoint's required fields before sending.
   </Accordion>
-  <Accordion title="415 — unsupported media type">
-    You'll receive a `415` when you upload a file to an endpoint that only accepts a specific type. For example, the document image upload endpoint only accepts files with an `image/*` content type.
 
-    **Fix:** check the file's MIME type before uploading and reject unsupported formats on the client side.
-  </Accordion>
   <Accordion title="500 — internal server error">
     A `500` indicates an unexpected error on DocInject's side. These are rare and usually transient.
 

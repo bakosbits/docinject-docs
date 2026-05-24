@@ -81,16 +81,3 @@ function verifySignature(rawBody, secret, signatureHeader) {
 ## Delivery behavior
 
 DocInject attempts delivery up to **3 times** with exponential backoff (delays of 1 s and 2 s between retries). Your endpoint must return a `2xx` response within **10 seconds**. Non-2xx responses and network errors are both treated as delivery failures.
-
-All delivery attempts are recorded in the event log. Retrieve recent events with `GET /webhooks/events`.
-
-## Event log
-
-The event log tracks the last 100 outbound events for your organization, including delivery status and attempt count. Use it to debug failed deliveries or confirm that events are reaching your endpoint.
-
-```bash
-curl https://api.docinject.io/api/v1/webhooks/events \
-  -H "Authorization: Bearer <token>"
-```
-
-See [Manage webhooks](/api/webhooks/manage) for full endpoint documentation.
