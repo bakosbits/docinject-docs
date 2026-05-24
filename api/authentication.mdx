@@ -10,7 +10,7 @@ All protected DocInject API endpoints require a Bearer token in the `Authorizati
 All API v1 endpoints are served from:
 
 ```
-https://api.docinject.io/api/v1
+https://api.docinject.com/{org_slug}/inbox
 ```
 
 ## Token types
@@ -40,12 +40,12 @@ Include your token as a Bearer value in the `Authorization` header on every requ
 <CodeGroup>
 
 ```bash curl
-curl https://api.docinject.io/api/v1/documents \
+curl https://api.docinject.com/{org_slug}/inbox \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ```javascript JavaScript
-const res = await fetch('https://api.docinject.io/api/v1/documents', {
+const res = await fetch('https://api.docinject.com/{org_slug}/inbox', {
   headers: {
     Authorization: `Bearer ${process.env.DOCINJECT_API_KEY}`,
   },
@@ -56,7 +56,7 @@ const res = await fetch('https://api.docinject.io/api/v1/documents', {
 import os, requests
 
 res = requests.get(
-    'https://api.docinject.io/api/v1/documents',
+    'https://api.docinject.com/{org_slug}/inbox',
     headers={'Authorization': f'Bearer {os.environ["DOCINJECT_API_KEY"]}'},
 )
 ```
@@ -96,7 +96,7 @@ HTTP 401 Unauthorized
 One endpoint is publicly accessible without a token — fetching a published document by share token:
 
 ```
-GET /api/v1/public/{org_slug}/documents/{token}
+GET https://app.docinject.com/embed/{org_slug}/{token}
 ```
 
 This returns the published content of a document that has been shared via a share link. No `Authorization` header is needed.

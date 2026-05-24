@@ -8,7 +8,7 @@ DocInject can render any published or draft document as a formatted Word documen
 ## Export as Word (.docx)
 
 ```
-GET https://api.docinject.io/api/v1/documents/{doc_id}/export?template_id={template_id}
+GET https://api.docinject.com/{org_slug}/inbox/{doc_id}/export?template_id={template_id}
 ```
 
 Renders the document using the specified Word template and returns a binary `.docx` file. The response includes a `Content-Disposition` header with the filename.
@@ -32,7 +32,7 @@ You must supply a `template_id`. Retrieve available template IDs from the [List 
 <CodeGroup>
 
 ```bash curl
-curl "https://api.docinject.io/api/v1/documents/doc_01hxyz1a2b3c4d5e6f7g8h9j/export?template_id=tmpl_01habcdefghijklmnopqrstu" \
+curl "https://api.docinject.com/{org_slug}/inbox/doc_01hxyz1a2b3c4d5e6f7g8h9j/export?template_id=tmpl_01habcdefghijklmnopqrstu" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -o "incident-response-playbook.docx"
 ```
@@ -42,7 +42,7 @@ const docId = 'doc_01hxyz1a2b3c4d5e6f7g8h9j';
 const templateId = 'tmpl_01habcdefghijklmnopqrstu';
 
 const res = await fetch(
-  `https://api.docinject.io/api/v1/documents/${docId}/export?template_id=${templateId}`,
+  `https://api.docinject.com/{org_slug}/inbox/${docId}/export?template_id=${templateId}`,
   {
     headers: { Authorization: `Bearer ${process.env.DOCINJECT_API_KEY}` },
   }
@@ -59,7 +59,7 @@ doc_id = 'doc_01hxyz1a2b3c4d5e6f7g8h9j'
 template_id = 'tmpl_01habcdefghijklmnopqrstu'
 
 res = requests.get(
-    f'https://api.docinject.io/api/v1/documents/{doc_id}/export',
+    f'https://api.docinject.com/{org_slug}/inbox/{doc_id}/export',
     params={'template_id': template_id},
     headers={'Authorization': f'Bearer {os.environ["DOCINJECT_API_KEY"]}'},
 )
@@ -86,7 +86,7 @@ Returns `400 Bad Request` if `template_id` is missing, or `404 Not Found` if the
 ## Export as Markdown
 
 ```
-GET https://api.docinject.io/api/v1/documents/{doc_id}/export/markdown
+GET https://api.docinject.com/{org_slug}/inbox/{doc_id}/export/markdown
 ```
 
 Exports the document as plain Markdown. The document title becomes an `h1`, sections become `h2`, steps become `h3`, and sub-steps become `h4`. Node content is converted from the rich text format to plain text paragraphs and bullet lists.
@@ -102,7 +102,7 @@ Exports the document as plain Markdown. The document title becomes an `h1`, sect
 <CodeGroup>
 
 ```bash curl
-curl "https://api.docinject.io/api/v1/documents/doc_01hxyz1a2b3c4d5e6f7g8h9j/export/markdown" \
+curl "https://api.docinject.com/{org_slug}/inbox/doc_01hxyz1a2b3c4d5e6f7g8h9j/export/markdown" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -o "incident-response-playbook.md"
 ```
@@ -111,7 +111,7 @@ curl "https://api.docinject.io/api/v1/documents/doc_01hxyz1a2b3c4d5e6f7g8h9j/exp
 const docId = 'doc_01hxyz1a2b3c4d5e6f7g8h9j';
 
 const res = await fetch(
-  `https://api.docinject.io/api/v1/documents/${docId}/export/markdown`,
+  `https://api.docinject.com/{org_slug}/inbox/${docId}/export/markdown`,
   {
     headers: { Authorization: `Bearer ${process.env.DOCINJECT_API_KEY}` },
   }
@@ -127,7 +127,7 @@ import os, requests
 doc_id = 'doc_01hxyz1a2b3c4d5e6f7g8h9j'
 
 res = requests.get(
-    f'https://api.docinject.io/api/v1/documents/{doc_id}/export/markdown',
+    f'https://api.docinject.com/{org_slug}/inbox/{doc_id}/export/markdown',
     headers={'Authorization': f'Bearer {os.environ["DOCINJECT_API_KEY"]}'},
 )
 

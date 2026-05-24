@@ -8,7 +8,7 @@ Use these endpoints to read documents from your DocInject organization. You can 
 ## List documents
 
 ```
-GET https://api.docinject.io/api/v1/documents
+GET https://api.docinject.com/{org_slug}/inbox
 ```
 
 Returns an array of documents. By default, only documents you own are returned. Pass `filter=shared` to list documents where you are assigned as editor instead.
@@ -30,13 +30,13 @@ Returns an array of documents. By default, only documents you own are returned. 
 <CodeGroup>
 
 ```bash curl
-curl "https://api.docinject.io/api/v1/documents?filter=owned&limit=25" \
+curl "https://api.docinject.com/{org_slug}/inbox?filter=owned&limit=25" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ```javascript JavaScript
 const res = await fetch(
-  'https://api.docinject.io/api/v1/documents?filter=owned&limit=25',
+  'https://api.docinject.com/{org_slug}/inbox?filter=owned&limit=25',
   {
     headers: {
       Authorization: `Bearer ${process.env.DOCINJECT_API_KEY}`,
@@ -50,7 +50,7 @@ const documents = await res.json();
 import os, requests
 
 res = requests.get(
-    'https://api.docinject.io/api/v1/documents',
+    'https://api.docinject.com/{org_slug}/inbox',
     params={'filter': 'owned', 'limit': 25},
     headers={'Authorization': f'Bearer {os.environ["DOCINJECT_API_KEY"]}'},
 )
@@ -155,7 +155,7 @@ Returns `200 OK` with an array of document objects.
 ## Get document counts
 
 ```
-GET https://api.docinject.io/api/v1/documents/counts
+GET https://api.docinject.com/{org_slug}/inbox/counts
 ```
 
 Returns a count of your documents broken down by status. Use this to build dashboards or status summaries without fetching the full document list.
@@ -165,12 +165,12 @@ Returns a count of your documents broken down by status. Use this to build dashb
 <CodeGroup>
 
 ```bash curl
-curl "https://api.docinject.io/api/v1/documents/counts" \
+curl "https://api.docinject.com/{org_slug}/inbox/counts" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ```javascript JavaScript
-const res = await fetch('https://api.docinject.io/api/v1/documents/counts', {
+const res = await fetch('https://api.docinject.com/{org_slug}/inbox/counts', {
   headers: { Authorization: `Bearer ${process.env.DOCINJECT_API_KEY}` },
 });
 const counts = await res.json();
@@ -207,7 +207,7 @@ Returns `200 OK` with an object containing counts for each status.
 ## Get a single document
 
 ```
-GET https://api.docinject.io/api/v1/documents/{doc_id}
+GET https://api.docinject.com/{org_slug}/inbox/{doc_id}
 ```
 
 Returns a single document including its complete node tree — sections, steps, and sub-steps — sorted by `order`.
@@ -223,14 +223,14 @@ Returns a single document including its complete node tree — sections, steps, 
 <CodeGroup>
 
 ```bash curl
-curl "https://api.docinject.io/api/v1/documents/doc_01hxyz1a2b3c4d5e6f7g8h9j" \
+curl "https://api.docinject.com/{org_slug}/inbox/doc_01hxyz1a2b3c4d5e6f7g8h9j" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ```javascript JavaScript
 const docId = 'doc_01hxyz1a2b3c4d5e6f7g8h9j';
 const res = await fetch(
-  `https://api.docinject.io/api/v1/documents/${docId}`,
+  `https://api.docinject.com/{org_slug}/inbox/${docId}`,
   {
     headers: { Authorization: `Bearer ${process.env.DOCINJECT_API_KEY}` },
   }
@@ -243,7 +243,7 @@ import os, requests
 
 doc_id = 'doc_01hxyz1a2b3c4d5e6f7g8h9j'
 res = requests.get(
-    f'https://api.docinject.io/api/v1/documents/{doc_id}',
+    f'https://api.docinject.com/{org_slug}/inbox/{doc_id}',
     headers={'Authorization': f'Bearer {os.environ["DOCINJECT_API_KEY"]}'},
 )
 doc = res.json()

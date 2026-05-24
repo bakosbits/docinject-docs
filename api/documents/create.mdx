@@ -12,7 +12,7 @@ Use these endpoints to build and modify documents programmatically. A document i
 ## Create a document
 
 ```
-POST https://api.docinject.io/api/v1/documents
+POST https://api.docinject.com/{org_slug}/inbox
 ```
 
 Creates a blank draft document. After creation, add nodes using the [node endpoints](#add-a-node) to build the content.
@@ -36,7 +36,7 @@ Creates a blank draft document. After creation, add nodes using the [node endpoi
 <CodeGroup>
 
 ```bash curl
-curl -X POST "https://api.docinject.io/api/v1/documents" \
+curl -X POST "https://api.docinject.com/{org_slug}/inbox" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -47,7 +47,7 @@ curl -X POST "https://api.docinject.io/api/v1/documents" \
 ```
 
 ```javascript JavaScript
-const res = await fetch('https://api.docinject.io/api/v1/documents', {
+const res = await fetch('https://api.docinject.com/{org_slug}/inbox', {
   method: 'POST',
   headers: {
     Authorization: `Bearer ${process.env.DOCINJECT_API_KEY}`,
@@ -66,7 +66,7 @@ const doc = await res.json(); // 201 Created
 import os, requests
 
 res = requests.post(
-    'https://api.docinject.io/api/v1/documents',
+    'https://api.docinject.com/{org_slug}/inbox',
     json={
         'title': 'Incident Response Playbook',
         'version': '1.0',
@@ -106,7 +106,7 @@ Returns `201 Created` with the new document object.
 ## Update a document
 
 ```
-PATCH https://api.docinject.io/api/v1/documents/{doc_id}
+PATCH https://api.docinject.com/{org_slug}/inbox/{doc_id}
 ```
 
 Updates the metadata of an existing document. Send only the fields you want to change.
@@ -140,7 +140,7 @@ Updates the metadata of an existing document. Send only the fields you want to c
 <CodeGroup>
 
 ```bash curl
-curl -X PATCH "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l" \
+curl -X PATCH "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"version": "1.1", "department": "Platform Engineering"}'
@@ -148,7 +148,7 @@ curl -X PATCH "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7
 
 ```javascript JavaScript
 const res = await fetch(
-  'https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l',
+  'https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l',
   {
     method: 'PATCH',
     headers: {
@@ -190,7 +190,7 @@ Returns `200 OK` with the updated document object.
 ## Delete a document
 
 ```
-DELETE https://api.docinject.io/api/v1/documents/{doc_id}
+DELETE https://api.docinject.com/{org_slug}/inbox/{doc_id}
 ```
 
 Permanently deletes a draft document. This action cannot be undone.
@@ -204,7 +204,7 @@ Permanently deletes a draft document. This action cannot be undone.
 ### Example request
 
 ```bash curl
-curl -X DELETE "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l" \
+curl -X DELETE "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -217,7 +217,7 @@ Returns `204 No Content` on success. Returns `400 Bad Request` if the document i
 ## Add a node
 
 ```
-POST https://api.docinject.io/api/v1/documents/{doc_id}/nodes
+POST https://api.docinject.com/{org_slug}/inbox/{doc_id}/nodes
 ```
 
 Adds a section, step, or sub-step to a document. Nodes follow a strict hierarchy: sections are top-level, steps are children of sections, and sub-steps are children of steps.
@@ -257,7 +257,7 @@ Adds a section, step, or sub-step to a document. Nodes follow a strict hierarchy
 <CodeGroup>
 
 ```bash curl (section)
-curl -X POST "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/nodes" \
+curl -X POST "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/nodes" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -268,7 +268,7 @@ curl -X POST "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j
 ```
 
 ```bash curl (step)
-curl -X POST "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/nodes" \
+curl -X POST "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/nodes" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -306,7 +306,7 @@ Returns `201 Created` with the new node object.
 ## Update a node
 
 ```
-PATCH https://api.docinject.io/api/v1/documents/{doc_id}/nodes/{node_id}
+PATCH https://api.docinject.com/{org_slug}/inbox/{doc_id}/nodes/{node_id}
 ```
 
 Updates the title, content, or order of a node. Send only the fields you want to change.
@@ -338,7 +338,7 @@ Updates the title, content, or order of a node. Send only the fields you want to
 ### Example request
 
 ```bash curl
-curl -X PATCH "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/nodes/node_01ha1b2c3d4e5f6g" \
+curl -X PATCH "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/nodes/node_01ha1b2c3d4e5f6g" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"title": "Detection, Triage, and Escalation"}'
@@ -353,7 +353,7 @@ Returns `200 OK` with the updated node object.
 ## Delete a node
 
 ```
-DELETE https://api.docinject.io/api/v1/documents/{doc_id}/nodes/{node_id}
+DELETE https://api.docinject.com/{org_slug}/inbox/{doc_id}/nodes/{node_id}
 ```
 
 Deletes a node and all of its descendants. Deleting a section removes all steps and sub-steps beneath it.
@@ -371,7 +371,7 @@ Deletes a node and all of its descendants. Deleting a section removes all steps 
 ### Example request
 
 ```bash curl
-curl -X DELETE "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/nodes/node_01ha1b2c3d4e5f6g" \
+curl -X DELETE "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/nodes/node_01ha1b2c3d4e5f6g" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -384,7 +384,7 @@ Returns `204 No Content` on success.
 ## Reorder nodes
 
 ```
-POST https://api.docinject.io/api/v1/documents/{doc_id}/nodes/reorder
+POST https://api.docinject.com/{org_slug}/inbox/{doc_id}/nodes/reorder
 ```
 
 Updates the `order` value of multiple nodes in a single request. Use this to reorder siblings after a drag-and-drop operation without making one request per node.
@@ -413,7 +413,7 @@ Updates the `order` value of multiple nodes in a single request. Use this to reo
 ### Example request
 
 ```bash curl
-curl -X POST "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/nodes/reorder" \
+curl -X POST "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/nodes/reorder" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{

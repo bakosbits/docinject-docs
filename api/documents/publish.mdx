@@ -20,7 +20,7 @@ flowchart LR
 ## Publish a document
 
 ```
-POST https://api.docinject.io/api/v1/documents/{doc_id}/publish
+POST https://api.docinject.com/{org_slug}/inbox/{doc_id}/publish
 ```
 
 Publishes a draft document, setting its status to `published` and recording a `published_at` timestamp. Fires a `document.published` webhook event (or `document.revised` if this is a revision draft).
@@ -40,13 +40,13 @@ Publishes a draft document, setting its status to `published` and recording a `p
 <CodeGroup>
 
 ```bash curl
-curl -X POST "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/publish" \
+curl -X POST "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/publish" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ```javascript JavaScript
 const res = await fetch(
-  'https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/publish',
+  'https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/publish',
   {
     method: 'POST',
     headers: { Authorization: `Bearer ${process.env.DOCINJECT_API_KEY}` },
@@ -84,7 +84,7 @@ Returns `200 OK` with the updated document object where `status` is `"published"
 ## Create a revision
 
 ```
-POST https://api.docinject.io/api/v1/documents/{doc_id}/revise
+POST https://api.docinject.com/{org_slug}/inbox/{doc_id}/revise
 ```
 
 Creates a new draft revision from a published document. The original published document is moved to revision history, and a new draft is created with the same title, version, and node structure. Update the version number and content on the new draft, then publish it when ready.
@@ -102,7 +102,7 @@ Creates a new draft revision from a published document. The original published d
 ### Example request
 
 ```bash curl
-curl -X POST "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/revise" \
+curl -X POST "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/revise" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -133,7 +133,7 @@ Returns `201 Created` with the new revision draft. The `parent_doc_id` field ref
 ## Archive a document
 
 ```
-POST https://api.docinject.io/api/v1/documents/{doc_id}/archive
+POST https://api.docinject.com/{org_slug}/inbox/{doc_id}/archive
 ```
 
 Archives a published document, removing it from the active document library. Fires a `document.archived` webhook event. Archived documents are retained and can be viewed in the archives section of the dashboard.
@@ -147,7 +147,7 @@ Archives a published document, removing it from the active document library. Fir
 ### Example request
 
 ```bash curl
-curl -X POST "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/archive" \
+curl -X POST "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/archive" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -175,7 +175,7 @@ Returns `200 OK` with the archived document record.
 ## Trigger a webhook manually
 
 ```
-POST https://api.docinject.io/api/v1/documents/{doc_id}/trigger-webhooks
+POST https://api.docinject.com/{org_slug}/inbox/{doc_id}/trigger-webhooks
 ```
 
 Re-fires a webhook event for a document without changing its status. Use this to replay a missed delivery, test your webhook endpoint, or push updates to connected systems after fixing an integration issue.
@@ -195,7 +195,7 @@ Re-fires a webhook event for a document without changing its status. Use this to
 ### Example request
 
 ```bash curl
-curl -X POST "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/trigger-webhooks" \
+curl -X POST "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/trigger-webhooks" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"event_type": "document.published"}'
@@ -216,7 +216,7 @@ Returns `202 Accepted` once the event has been dispatched.
 ## Get revision history
 
 ```
-GET https://api.docinject.io/api/v1/documents/{doc_id}/history
+GET https://api.docinject.com/{org_slug}/inbox/{doc_id}/history
 ```
 
 Returns the revision chain for a document — an ordered list of all previous published versions that were moved to history when revisions were created. Returns an empty array if the document has never been revised.
@@ -230,7 +230,7 @@ Returns the revision chain for a document — an ordered list of all previous pu
 ### Example request
 
 ```bash curl
-curl "https://api.docinject.io/api/v1/documents/doc_01hzcd2d3e4f5g6h7j8k9l0m/history" \
+curl "https://api.docinject.com/{org_slug}/inbox/doc_01hzcd2d3e4f5g6h7j8k9l0m/history" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -261,7 +261,7 @@ Returns `200 OK` with an array of history records ordered from oldest to most re
 ## Assign an editor
 
 ```
-PATCH https://api.docinject.io/api/v1/documents/{doc_id}/editor
+PATCH https://api.docinject.com/{org_slug}/inbox/{doc_id}/editor
 ```
 
 Assigns an editor to a document, granting them write access. The editor must be a member of the same organization. Fires a `document.assigned` webhook event when an editor is set. Pass `null` for `editor_id` to remove the current editor.
@@ -283,14 +283,14 @@ Assigns an editor to a document, granting them write access. The editor must be 
 <CodeGroup>
 
 ```bash curl (assign)
-curl -X PATCH "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/editor" \
+curl -X PATCH "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/editor" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"editor_id": "usr_01hb2c3d4e5f6g7h8i9j0k1l"}'
 ```
 
 ```bash curl (remove)
-curl -X PATCH "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/editor" \
+curl -X PATCH "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/editor" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"editor_id": null}'
@@ -307,7 +307,7 @@ Returns `200 OK` with the updated document object.
 ## Create a share token
 
 ```
-POST https://api.docinject.io/api/v1/documents/{doc_id}/share-token
+POST https://api.docinject.com/{org_slug}/inbox/{doc_id}/share-token
 ```
 
 Creates a public share token for a document. Anyone with the token URL can view the published document without logging in. If a token already exists, this endpoint returns the existing one.
@@ -321,7 +321,7 @@ Creates a public share token for a document. Anyone with the token URL can view 
 ### Example request
 
 ```bash curl
-curl -X POST "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/share-token" \
+curl -X POST "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/share-token" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -365,7 +365,7 @@ https://app.docinject.io/embed/{org_slug}/{token}
 ## Get the share token
 
 ```
-GET https://api.docinject.io/api/v1/documents/{doc_id}/share-token
+GET https://api.docinject.com/{org_slug}/inbox/{doc_id}/share-token
 ```
 
 Returns the existing share token for a document, or `null` if no token has been created.
@@ -379,7 +379,7 @@ Returns the existing share token for a document, or `null` if no token has been 
 ### Example request
 
 ```bash curl
-curl "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/share-token" \
+curl "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/share-token" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -401,7 +401,7 @@ Returns `200 OK` with the share token object, or `null` if none exists.
 ## Revoke the share token
 
 ```
-DELETE https://api.docinject.io/api/v1/documents/{doc_id}/share-token
+DELETE https://api.docinject.com/{org_slug}/inbox/{doc_id}/share-token
 ```
 
 Revokes the share token for a document. Any existing share links using this token will immediately stop working.
@@ -415,7 +415,7 @@ Revokes the share token for a document. Any existing share links using this toke
 ### Example request
 
 ```bash curl
-curl -X DELETE "https://api.docinject.io/api/v1/documents/doc_01hzab1c2d3e4f5g6h7j8k9l/share-token" \
+curl -X DELETE "https://api.docinject.com/{org_slug}/inbox/doc_01hzab1c2d3e4f5g6h7j8k9l/share-token" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
