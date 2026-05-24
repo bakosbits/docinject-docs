@@ -32,30 +32,6 @@ Exporting lets you take your DocInject documents outside the platform. Use the W
   </Step>
 </Steps>
 
-## Export via API
-
-<CodeGroup>
-
-```bash Word export
-GET /api/v1/documents/{doc_id}/export?template_id={template_id}
-```
-
-```bash Markdown export
-GET /api/v1/documents/{doc_id}/export/markdown
-```
-
-</CodeGroup>
-
-The Word export endpoint requires `template_id` as a query parameter and returns the `.docx` file with `Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document`.
-
-The Markdown export endpoint requires no additional parameters and returns the `.md` content with `Content-Type: text/markdown`.
-
-Both endpoints require authentication.
-
-<Note>
-  The `template_id` query parameter is required for Word export. Omitting it returns a `400` error.
-</Note>
-
 ## Managing templates
 
 Templates are `.docx` files that control the layout and styling of your Word exports. DocInject fills in document sections, steps, and content during export.
@@ -71,39 +47,3 @@ Templates are `.docx` files that control the layout and styling of your Word exp
   </Step>
 </Steps>
 
-You can also upload via the API:
-
-```bash
-POST /api/v1/templates
-Content-Type: multipart/form-data
-
-name=My Template
-file=<your .docx file>
-tab_width=0.5
-```
-
-The `tab_width` field controls indentation in the exported document (defaults to `0.5`).
-
-### List templates
-
-```bash
-GET /api/v1/templates
-```
-
-Returns an array of templates available to your organization.
-
-### Delete a template
-
-In **Settings → Templates**, click the delete button next to the template you want to remove.
-
-Via the API:
-
-```bash
-DELETE /api/v1/templates/{template_id}
-```
-
-Returns `204 No Content` on success.
-
-<Warning>
-  Deleting a template is permanent. Any export workflow that references it will fail until a replacement template is selected.
-</Warning>

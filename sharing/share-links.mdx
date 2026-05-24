@@ -36,13 +36,6 @@ Anyone who has this URL can view the document. The link remains active as long a
   </Step>
 </Steps>
 
-You can also create a token via the API:
-
-```bash
-POST /api/v1/documents/{doc_id}/share-token
-```
-
-Returns the token object with `201 Created`.
 
 ## Find your share links
 
@@ -52,24 +45,11 @@ All active share links for your organization appear on the **Dashboard** under t
 
 Open the **Embed** modal and click **Remove link**. The token is deleted immediately — anyone who tries to open the old URL will see a "document not available" message.
 
-Via the API:
-
-```bash
-DELETE /api/v1/documents/{doc_id}/share-token
-```
-
-Returns `204 No Content` on success.
-
-<Warning>
-  Revoking a token is instant and permanent. If the link is embedded in another tool or shared externally, it will stop working immediately.
-</Warning>
-
-## Public document API
 
 The public endpoint returns the full document JSON without requiring authentication:
 
 ```bash
-GET /api/v1/public/{org_slug}/documents/{token}
+GET https://app.docinject.com/embed/{org_slug}/{token}
 ```
 
 ### Example response
