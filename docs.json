@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "almond",
+  "theme": "aspen",
   "name": "DocInject",
   "description": "DocInject helps teams create, manage, and deploy SOPs, playbooks, and guides into the tools and workflows they already use.",
   "colors": {
