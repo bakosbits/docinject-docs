@@ -11,7 +11,7 @@
   "favicon": "/images/favicon.ico",
     "fonts": {
     "family": "Inter",
-    "weight": 700
+    "weight": 800
   },
   "icons": {
     "library": "lucide"
@@ -29,11 +29,6 @@
           "anchor": "Home",
           "icon": "house",
           "href": "/"
-        },
-        {
-          "anchor": "API Reference",
-          "icon": "code",
-          "href": "/api/authentication"
         }
       ]
     },
@@ -130,8 +125,8 @@
     ]
   },
   "logo": {
-    "light": "/images/docinject_logo_light.svg",
-    "dark": "/images/docinject_logo_dark.svg"
+    "light": "/images/docinject_logo_light.png",
+    "dark": "/images/docinject_logo_dark.png"
   },
   "navbar": {
     "links": [],
