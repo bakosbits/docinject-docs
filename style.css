@@ -101,55 +101,50 @@ body:has([data-product-guide-index]) #sidebar a.nav-anchor[href='/'] svg {
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
-  min-height: 260px;
+  min-height: 290px; /* Slight bump to give the wide layout breathing room */
   
-  /* FIXED: Shifting the image 55px down from the top boundary */
-  background: url('/images/doc_banner.png') center 55px / contain no-repeat !important;
-  
+  /* 1. We position the background to start lower (75px) to clear the header area */
+  background: url('/images/doc_banner.png') center 75px / contain no-repeat !important;
   border: none !important;
   box-shadow: none !important;
-  color: white !important;
   
   .dark & {
-    /* FIXED: Keep the 55px top offset locked in dark mode too */
-    background: url('/images/doc_banner.png') center 55px / contain no-repeat !important;
+    background: url('/images/doc_banner.png') center 75px / contain no-repeat !important;
   }
 }
 
-/* --- Clean Up Icon Conflict --- */
-/* Now that the banner is a background PNG, we completely remove 'svg' from this selector 
-   so your textual code icons don't conflict with any formatting */
-.product-guide-feature-card :is(.icon, [class*='icon']) {
-  background-color: white !important;
-  width: 2em !important;
-  height: 2em !important;
-  margin-top: 2px;
-}
-
-/* --- Rest of your text styling rules remain unchanged --- */
+/* Ensure the title text stands out cleanly and has a bottom margin */
 .product-guide-feature-card-title {
-  font-size: 1.2em;
-  font-weight: 500;
-}
+  color: #111827 !important; /* Elegant dark charcoal/black for light mode */
+  font-size: 1.4em;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 20px !important; /* Hard separation to push layout elements away */
 
-.product-guide-feature-card :is(h2, h3, p, span).product-guide-feature-card-description {
-  font-size: 1.05em;
-  font-weight: 400;
+  .dark & {
+    color: #ffffff !important; /* Crisp white for dark mode */
   }
 }
 
-/* Force the internal Mintlify flex box to fill the entire 260px height */
+/* Ensure the inner layout blocks don't force elements to overlap */
 .product-guide-feature-card > div {
   height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
+  justify-content: space-between !important;
+  padding-top: 15px !important; /* Moves your icon and title down slightly from the very edge */
 }
 
-/* Push the description container down to the very bottom */
+/* Safely anchors the footer description at the bottom */
 .product-guide-feature-card-description {
   margin-top: auto !important;
-  padding-top: 110px; /* Creates a guaranteed empty window in the middle for your banner graphic */
+  padding-top: 135px; /* Creates a large structural window for the diagram */
   display: block !important;
+  color: #4b5563 !important; /* Clean gray reading text */
+
+  .dark & {
+    color: rgb(var(--gray-50) / 60%) !important;
+  }
 }
 
 img.nav-logo {
