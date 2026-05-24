@@ -11,16 +11,13 @@
   "favicon": "/images/favicon.ico",
     "fonts": {
     "family": "Inter",
-    "weight": 800
+    "weight": 600
   },
   "icons": {
     "library": "lucide"
   },
   "styling": {
-    "eyebrows": "breadcrumbs"
-  },
-  "contextual": {
-    "options": ["copy", "view", "assistant", "mcp", "add-mcp"]
+    "eyebrows": "section"
   },
   "navigation": {
     "global": {
@@ -138,5 +135,11 @@
   },
   "footer": {
     "socials": {}
+  },
+  "seo": {
+    "indexing": "navigable"
+  },
+  "interaction": {
+    "drilldown": true
   }
 }
