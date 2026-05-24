@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "palm",
+  "theme": "aspen",
   "name": "DocInject",
   "description": "DocInject helps teams create, manage, and deploy SOPs, playbooks, and guides into the tools and workflows they already use.",
   "colors": {
@@ -130,8 +130,8 @@
     ]
   },
   "logo": {
-    "light": "/images/docinject_logo_light.png",
-    "dark": "/images/docinject_logo_dark.png"
+    "light": "/images/docinject_logo_light.svg",
+    "dark": "/images/docinject_logo_dark.svg"
   },
   "navbar": {
     "links": [],
