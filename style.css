@@ -95,7 +95,6 @@ body:has([data-product-guide-index]) #sidebar a.nav-anchor[href='/'] svg {
 .dark [data-product-guide-index] a:not(.product-guide-feature-card) {
   background-color: #09090b !important;
 }
-
 .product-guide-feature-card {
   grid-column: 1 / -1;
   display: flex !important;
@@ -103,42 +102,35 @@ body:has([data-product-guide-index]) #sidebar a.nav-anchor[href='/'] svg {
   justify-content: space-between !important;
   min-height: 260px;
   
-  /* Changed 'cover' to 'contain' and moved positioning to 'top center' or 'center' */
-  background: url('/images/doc_banner.svg') top center / contain no-repeat !important;
+  /* 1. Use contain layout and point to your new PNG asset */
+  background: url('/images/doc_banner.png') center center / contain no-repeat !important;
   
   border: none !important;
   box-shadow: none !important;
   color: white !important;
   
+  /* 2. Explicitly mirror the configuration for the dark mode class */
   .dark & {
-    background-image: url('/images/doc_banner.svg') !important;
+    background: url('/images/doc_banner.png') center center / contain no-repeat !important;
   }
 }
 
-.product-guide-feature-card > div {
-  display: flex !important;
-  flex: 1;
-  flex-direction: column !important;
-  justify-content: space-between !important;
-}
-
-.product-guide-feature-card :is(h2, h3, p, span, svg) {
-  color: white !important;
-}
-
-.product-guide-feature-card :is(svg, [class*='icon']) {
+/* --- Clean Up Icon Conflict --- */
+/* Now that the banner is a background PNG, we completely remove 'svg' from this selector 
+   so your textual code icons don't conflict with any formatting */
+.product-guide-feature-card :is(.icon, [class*='icon']) {
   background-color: white !important;
   width: 2em !important;
   height: 2em !important;
   margin-top: 2px;
 }
 
+/* --- Rest of your text styling rules remain unchanged --- */
 .product-guide-feature-card-title {
   font-size: 1.2em;
   font-weight: 500;
 }
-
-.product-guide-feature-card :is(h2, h3, p, span, svg).product-guide-feature-card-description {
+.product-guide-feature-card :is(h2, h3, p, span).product-guide-feature-card-description {
   font-size: 1.05em;
   font-weight: 400;
   color: rgb(var(--gray-50) / 62.5%) !important;
