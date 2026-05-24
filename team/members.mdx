@@ -1,0 +1,108 @@
+---
+title: "Manage team members in DocInject"
+description: "Invite colleagues, view the team roster, reassign document ownership, and remove members from your DocInject organization — all from Settings."
+---
+
+Your team lives in **Settings → Team**. From there you can invite colleagues, see who owns which documents, transfer ownership, and remove members who no longer need access. Only admins can invite or remove members.
+
+## Invite members
+
+<Steps>
+  <Step title="Open the Team tab">
+    Go to **Settings** and click the **Team** tab.
+  </Step>
+  <Step title="Enter email addresses">
+    Type one or more email addresses in the invite field. Separate multiple addresses with commas.
+  </Step>
+  <Step title="Send the invite">
+    Click **Send invite**. Each address receives an email with a link to set a password and access your organization.
+  </Step>
+</Steps>
+
+<Note>
+  Only admins can send invitations. If you don't see the invite field, ask an admin to invite you or check your role in the member list.
+</Note>
+
+When an invitee clicks the link in their email, they land on the **Accept invite** page where they set a password to complete account setup.
+
+## View the member list
+
+The **Team Members** section lists every person in your organization. Each row shows:
+
+- **Name** — display name or email address if no display name is set
+- **Role** — `Admin` or `Member`
+- **Email address**
+- **Document count** — number of documents that member created
+
+## Reassign documents
+
+Each document is owned by the person who created it. Before you can remove a member who owns documents, you must transfer those documents to someone else.
+
+<Steps>
+  <Step title="Open the reassign flow">
+    In the member list, click **Reassign documents** next to the member whose documents you want to transfer. You can also access this from the remove confirmation dialog.
+  </Step>
+  <Step title="Select documents to transfer">
+    Check the documents you want to move. All owned documents are selected by default.
+  </Step>
+  <Step title="Choose a new owner">
+    Select a team member from the **Transfer to** dropdown.
+  </Step>
+  <Step title="Confirm the transfer">
+    Click **Confirm transfer**. Ownership updates immediately.
+  </Step>
+</Steps>
+
+<Tip>
+  You can reassign documents at any time — not only when removing a member. Use this to rebalance ownership when someone changes roles or leaves a project.
+</Tip>
+
+## Remove a member
+
+<Steps>
+  <Step title="Click Remove">
+    In the member list, click the **Remove** button next to the member you want to remove.
+  </Step>
+  <Step title="Resolve document ownership (if needed)">
+    If the member owns documents, DocInject shows a warning and the list of affected documents. Click **Reassign documents** to transfer them before proceeding.
+  </Step>
+  <Step title="Confirm removal">
+    Once there are no owned documents, confirm the removal. This permanently deletes the member's account from your organization and cannot be undone.
+  </Step>
+</Steps>
+
+<Warning>
+  Removing a member permanently deletes their account from the organization. You cannot remove the last admin — promote another member to admin first.
+</Warning>
+
+## Manage departments
+
+Departments are labels you assign to documents to help your team filter and organize content by team or function.
+
+<Steps>
+  <Step title="Open the Organization tab">
+    Go to **Settings** and click the **Organization** tab.
+  </Step>
+  <Step title="Add a department">
+    Type a name in the department field and click **Add**, or press Enter.
+  </Step>
+  <Step title="Delete a department">
+    Click the **×** next to any department label to remove it.
+  </Step>
+</Steps>
+
+<Note>
+  Only admins can add or delete departments.
+</Note>
+
+<AccordionGroup>
+  <Accordion title="Why can't I see the invite field?">
+    The invite field is only visible to admins. If you're a member, ask an admin to invite new colleagues on your behalf.
+  </Accordion>
+  <Accordion title="What happens if an invite email fails to send?">
+    DocInject shows an inline error for each failed address. Successful invites in the same batch are still sent. Re-enter the failed addresses and try again.
+  </Accordion>
+  <Accordion title="Can I re-invite someone whose account was removed?">
+    Yes. Send a new invite to their email address and they'll go through account setup again as a new member.
+  </Accordion>
+</AccordionGroup>

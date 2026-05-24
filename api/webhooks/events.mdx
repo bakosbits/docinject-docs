@@ -1,0 +1,310 @@
+---
+title: "DocInject webhook event reference"
+description: "All available webhook event types for DocInject, when each event fires, and the exact shape of the data payload your endpoint receives."
+---
+
+Each event DocInject dispatches includes a standard envelope with `event_type`, `organization_id`, `org_slug`, and `occurred_at` at the top level. The fields documented here describe the `data` object inside that envelope. For the full envelope shape, see the [webhooks overview](/api/webhooks/overview).
+
+## Document events
+
+<AccordionGroup>
+  <Accordion title="document.created">
+    Fires when a new document is created in your organization (as a draft, before any publishing).
+
+    **Data payload**
+
+    <ResponseField name="document_id" type="string">
+      UUID of the newly created document.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Title of the document at creation time.
+    </ResponseField>
+    <ResponseField name="created_by_email" type="string">
+      Email address of the team member who created the document.
+    </ResponseField>
+
+    ```json
+    {
+      "event_type": "document.created",
+      "organization_id": "a1b2c3d4-0000-0000-0000-111122223333",
+      "org_slug": "acme-ops",
+      "occurred_at": "2024-03-10T09:14:00Z",
+      "data": {
+        "document_id": "doc-uuid-0001",
+        "title": "Onboarding Checklist",
+        "created_by_email": "alex@acme.example"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="document.published">
+    Fires the first time a document transitions from draft to published status.
+
+    **Data payload**
+
+    <ResponseField name="document_id" type="string">
+      UUID of the published document.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Document title.
+    </ResponseField>
+    <ResponseField name="version" type="string">
+      Version label at the time of publication (for example, `"1.0"` or `"v2"`).
+    </ResponseField>
+    <ResponseField name="department" type="string | null">
+      Department the document belongs to, or `null` if unassigned.
+    </ResponseField>
+    <ResponseField name="published_at" type="string">
+      ISO 8601 timestamp when the document was published.
+    </ResponseField>
+    <ResponseField name="published_by_email" type="string">
+      Email address of the team member who published the document.
+    </ResponseField>
+    <ResponseField name="sections" type="array">
+      Structured content of the document. Each section contains steps, and each step may contain sub-steps.
+
+      <Expandable title="Section fields">
+        <ResponseField name="sections[].title" type="string">Title of the section.</ResponseField>
+        <ResponseField name="sections[].content" type="string">Plain-text content of the section.</ResponseField>
+        <ResponseField name="sections[].images" type="string[]">Ordered list of image URLs embedded in the section.</ResponseField>
+        <ResponseField name="sections[].steps" type="array">
+          <Expandable title="Step fields">
+            <ResponseField name="sections[].steps[].title" type="string">Title of the step.</ResponseField>
+            <ResponseField name="sections[].steps[].content" type="string">Plain-text content of the step.</ResponseField>
+            <ResponseField name="sections[].steps[].images" type="string[]">Image URLs embedded in the step.</ResponseField>
+            <ResponseField name="sections[].steps[].substeps" type="array">
+              <Expandable title="Sub-step fields">
+                <ResponseField name="title" type="string">Sub-step title.</ResponseField>
+                <ResponseField name="content" type="string">Plain-text content of the sub-step.</ResponseField>
+                <ResponseField name="images" type="string[]">Image URLs embedded in the sub-step.</ResponseField>
+              </Expandable>
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    ```json
+    {
+      "event_type": "document.published",
+      "organization_id": "a1b2c3d4-0000-0000-0000-111122223333",
+      "org_slug": "acme-ops",
+      "occurred_at": "2024-03-10T11:00:00Z",
+      "data": {
+        "document_id": "doc-uuid-0001",
+        "title": "Onboarding Checklist",
+        "version": "1.0",
+        "department": "People Ops",
+        "published_at": "2024-03-10T11:00:00Z",
+        "published_by_email": "alex@acme.example",
+        "sections": [
+          {
+            "title": "Getting started",
+            "content": "Complete these steps before your first day.",
+            "images": [],
+            "steps": [
+              {
+                "title": "Set up your laptop",
+                "content": "Follow the IT setup guide linked in your welcome email.",
+                "images": ["https://cdn.docinject.io/img/setup-guide.png"],
+                "substeps": [
+                  {
+                    "title": "Install required software",
+                    "content": "Run the bootstrap script from the IT setup repository.",
+                    "images": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="document.revised">
+    Fires when a document that has already been published is revised and republished. Contains the same structured payload as `document.published` plus a reference to the previous version.
+
+    **Data payload**
+
+    All fields from `document.published` are present, plus:
+
+    <ResponseField name="previous_version_id" type="string">
+      UUID of the document record representing the prior published version.
+    </ResponseField>
+
+    ```json
+    {
+      "event_type": "document.revised",
+      "organization_id": "a1b2c3d4-0000-0000-0000-111122223333",
+      "org_slug": "acme-ops",
+      "occurred_at": "2024-06-01T14:22:00Z",
+      "data": {
+        "document_id": "doc-uuid-0001",
+        "title": "Onboarding Checklist",
+        "version": "2.0",
+        "department": "People Ops",
+        "published_at": "2024-06-01T14:22:00Z",
+        "published_by_email": "jordan@acme.example",
+        "previous_version_id": "doc-uuid-0001-v1",
+        "sections": [
+          {
+            "title": "Getting started",
+            "content": "Complete these steps before your first day.",
+            "images": [],
+            "steps": []
+          }
+        ]
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="document.archived">
+    Fires when a document is archived and removed from the active library.
+
+    **Data payload**
+
+    <ResponseField name="document_id" type="string">
+      UUID of the archived document.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Title of the document at the time it was archived.
+    </ResponseField>
+    <ResponseField name="archived_by_email" type="string">
+      Email address of the team member who archived the document.
+    </ResponseField>
+
+    ```json
+    {
+      "event_type": "document.archived",
+      "organization_id": "a1b2c3d4-0000-0000-0000-111122223333",
+      "org_slug": "acme-ops",
+      "occurred_at": "2024-07-20T08:45:00Z",
+      "data": {
+        "document_id": "doc-uuid-0099",
+        "title": "Legacy Expense Process",
+        "archived_by_email": "morgan@acme.example"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="document.assigned">
+    Fires when an editor is assigned to a document.
+
+    **Data payload**
+
+    <ResponseField name="document_id" type="string">
+      UUID of the document.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Title of the document.
+    </ResponseField>
+    <ResponseField name="editor_id" type="string">
+      UUID of the user who was assigned as editor.
+    </ResponseField>
+
+    ```json
+    {
+      "event_type": "document.assigned",
+      "organization_id": "a1b2c3d4-0000-0000-0000-111122223333",
+      "org_slug": "acme-ops",
+      "occurred_at": "2024-04-05T10:00:00Z",
+      "data": {
+        "document_id": "doc-uuid-0042",
+        "title": "Q2 Compliance Review",
+        "editor_id": "user-uuid-0007"
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Member events
+
+<AccordionGroup>
+  <Accordion title="member.invited">
+    Fires when an admin sends an invitation to a new team member.
+
+    **Data payload**
+
+    <ResponseField name="email" type="string">
+      Email address the invitation was sent to.
+    </ResponseField>
+    <ResponseField name="invited_by" type="string">
+      UUID of the admin who sent the invitation.
+    </ResponseField>
+
+    ```json
+    {
+      "event_type": "member.invited",
+      "organization_id": "a1b2c3d4-0000-0000-0000-111122223333",
+      "org_slug": "acme-ops",
+      "occurred_at": "2024-05-12T16:30:00Z",
+      "data": {
+        "email": "newperson@acme.example",
+        "invited_by": "user-uuid-0001"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="member.joined">
+    Fires when an invited user accepts their invitation and joins the organization.
+
+    **Data payload**
+
+    <ResponseField name="user_id" type="string">
+      UUID of the user who joined.
+    </ResponseField>
+    <ResponseField name="email" type="string">
+      Email address of the new member.
+    </ResponseField>
+
+    ```json
+    {
+      "event_type": "member.joined",
+      "organization_id": "a1b2c3d4-0000-0000-0000-111122223333",
+      "org_slug": "acme-ops",
+      "occurred_at": "2024-05-13T09:05:00Z",
+      "data": {
+        "user_id": "user-uuid-0055",
+        "email": "newperson@acme.example"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="member.role_changed">
+    Fires when an admin promotes a member to admin or demotes an admin to member.
+
+    **Data payload**
+
+    <ResponseField name="user_id" type="string">
+      UUID of the member whose role changed.
+    </ResponseField>
+    <ResponseField name="new_role" type="string">
+      The role the member now holds. Either `"admin"` or `"member"`.
+    </ResponseField>
+    <ResponseField name="changed_by" type="string">
+      UUID of the admin who made the change.
+    </ResponseField>
+
+    ```json
+    {
+      "event_type": "member.role_changed",
+      "organization_id": "a1b2c3d4-0000-0000-0000-111122223333",
+      "org_slug": "acme-ops",
+      "occurred_at": "2024-08-02T13:17:00Z",
+      "data": {
+        "user_id": "user-uuid-0055",
+        "new_role": "admin",
+        "changed_by": "user-uuid-0001"
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>

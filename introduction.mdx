@@ -1,0 +1,55 @@
+---
+title: "DocInject: deploy your SOPs into every workflow"
+description: "DocInject turns SOPs, playbooks, and guides into deployable process context — publish once, then route to any tool via webhooks, API, or embeddable links."
+---
+
+DocInject helps teams turn SOPs, playbooks, and guides into structured, reusable process context. Instead of storing procedures in a wiki that nobody reads, you publish them once and deploy them — via webhooks, the REST API, or embeddable share links — into the tools your team uses every day.
+
+## How it works
+
+Every document in DocInject follows the same lifecycle:
+
+1. **Create** — Start from scratch, paste in notes, or let AI generate a structured draft from audio, video, or an uploaded file.
+2. **Edit** — Refine your document in the structured editor. Organize content into sections, steps, and sub-steps.
+3. **Publish** — Lock in the document as your source of truth. Publishing triggers webhook events so downstream systems stay in sync.
+4. **Deploy** — Route the published content to any tool via webhooks, pull it programmatically through the REST API, or share it via an embeddable link.
+
+## Key features
+
+**AI generation from any input**
+Paste notes, describe the process, upload a PDF, Word document, or text file, or record audio or video. DocInject extracts and structures your content automatically, then asks a few clarifying questions before creating the document.
+
+**Structured editor**
+Documents are made of sections, steps, and sub-steps — not free-form text. That structure is what makes them composable, routable, and machine-readable.
+
+**Webhooks**
+Subscribe to document lifecycle events (`document.created`, `document.published`, `document.revised`, `document.archived`, `document.assigned`) and push payloads to any HTTP endpoint or automation platform.
+
+**REST API**
+Create, retrieve, publish, and export documents programmatically. Access your organization's inbox to pull the latest published payloads for any document.
+
+**Embeddable share links**
+Generate a public share token for any published document. Anyone with the link can view it — no DocInject account required.
+
+**Export**
+Download any document as Markdown or as a `.docx` file using your own branded Word template.
+
+**Automation Assistant**
+Describe a workflow goal and DocInject writes the automation recipe for Gumloop, Make, n8n, Pipedream, Zapier, and other platforms.
+
+## Where to go next
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Sign up and publish your first document in minutes.
+  </Card>
+  <Card title="Key concepts" icon="book-open" href="/concepts">
+    Learn the terminology before you build.
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/integrations/webhooks">
+    Route document events to your existing tools.
+  </Card>
+  <Card title="API reference" icon="code" href="/api/authentication">
+    Authenticate and start making API calls.
+  </Card>
+</CardGroup>

@@ -1,0 +1,96 @@
+---
+title: "Webhooks API overview for DocInject"
+description: "Register endpoints, verify payload signatures, and understand how DocInject delivers document and member events to your server in real time."
+---
+
+Webhooks let your server receive automatic notifications when activity occurs in your DocInject organization. When a subscribed event fires — a document is published, a member joins, a role changes — DocInject sends an HTTP POST request to your registered URL with a signed JSON payload.
+
+<Note>
+  Webhook integrations require the **Scale plan**. Attempting to register a webhook on a lower-tier plan returns `403`.
+</Note>
+
+## Payload envelope
+
+Every webhook request shares the same top-level structure regardless of event type.
+
+```json
+{
+  "event_type": "document.published",
+  "organization_id": "a1b2c3d4-0000-0000-0000-111122223333",
+  "org_slug": "acme-ops",
+  "occurred_at": "2024-01-15T10:30:00Z",
+  "data": { ... }
+}
+```
+
+<ResponseField name="event_type" type="string" required>
+  The name of the event that fired. See [Event reference](/api/webhooks/events) for all possible values.
+</ResponseField>
+
+<ResponseField name="organization_id" type="string" required>
+  UUID of the organization that generated the event.
+</ResponseField>
+
+<ResponseField name="org_slug" type="string" required>
+  URL-safe slug for the organization (e.g. `acme-ops`).
+</ResponseField>
+
+<ResponseField name="occurred_at" type="string" required>
+  ISO 8601 timestamp marking when the event was dispatched.
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  Event-specific payload. Shape varies by `event_type`; see the [event reference](/api/webhooks/events) for full schemas.
+</ResponseField>
+
+## Verifying signatures
+
+DocInject signs every request with HMAC-SHA256. The signature is included in the `X-DocInject-Signature` header as `sha256=<hex-digest>`.
+
+Your webhook secret is returned **once** when you register a webhook (`POST /webhooks`). Store it securely — it is not retrievable afterwards.
+
+To verify a request:
+
+<Steps>
+  <Step title="Read the raw request body">
+    Compute the signature over the raw bytes before any JSON parsing.
+  </Step>
+  <Step title="Compute the expected signature">
+    HMAC-SHA256 the raw body using your webhook secret.
+  </Step>
+  <Step title="Compare signatures">
+    Use a constant-time comparison to check that your computed digest matches the `sha256=` value in the header. Reject the request if they do not match.
+  </Step>
+</Steps>
+
+```javascript
+import { createHmac, timingSafeEqual } from "crypto";
+
+function verifySignature(rawBody, secret, signatureHeader) {
+  const expected = "sha256=" + createHmac("sha256", secret)
+    .update(rawBody)
+    .digest("hex");
+
+  const a = Buffer.from(expected);
+  const b = Buffer.from(signatureHeader ?? "");
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
+}
+```
+
+## Delivery behavior
+
+DocInject attempts delivery up to **3 times** with exponential backoff (delays of 1 s and 2 s between retries). Your endpoint must return a `2xx` response within **10 seconds**. Non-2xx responses and network errors are both treated as delivery failures.
+
+All delivery attempts are recorded in the event log. Retrieve recent events with `GET /webhooks/events`.
+
+## Event log
+
+The event log tracks the last 100 outbound events for your organization, including delivery status and attempt count. Use it to debug failed deliveries or confirm that events are reaching your endpoint.
+
+```bash
+curl https://api.docinject.io/api/v1/webhooks/events \
+  -H "Authorization: Bearer <token>"
+```
+
+See [Manage webhooks](/api/webhooks/manage) for full endpoint documentation.

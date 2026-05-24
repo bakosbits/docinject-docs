@@ -1,0 +1,257 @@
+---
+title: "Read the organization inbox via the API"
+description: "Fetch the inbox feed of published document payloads for your organization. Use these endpoints to pull the latest SOPs and guides into external systems."
+---
+
+The inbox provides a feed of the most recently published version of every document in your organization. Each entry contains the full document payload — title, version, department, and structured section content — so you can sync DocInject documents to downstream systems without a webhook listener.
+
+**Base URL:** `https://api.docinject.io/api/v1`
+
+<Note>
+  Inbox endpoints identify your organization by **slug**, not by UUID. Find your slug in **Settings → Organization** under the "Slug" field.
+</Note>
+
+---
+
+## Get the organization inbox
+
+Return all inbox entries for the organization, ordered by most recent first. Each entry represents the latest published or revised payload for a document.
+
+```
+GET /organizations/{org_slug}/inbox
+```
+
+### Path parameters
+
+<ParamField path="org_slug" type="string" required>
+  Your organization's URL slug (for example, `acme-corp`). Find this in Settings → Organization.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl https://api.docinject.io/api/v1/organizations/acme-corp/inbox \
+  -H "Authorization: Bearer <api_key>"
+```
+
+```javascript JavaScript
+const res = await fetch(
+  `https://api.docinject.io/api/v1/organizations/${orgSlug}/inbox`,
+  { headers: { Authorization: `Bearer ${apiKey}` } }
+);
+const entries = await res.json();
+for (const entry of entries) {
+  console.log(entry.data.title, entry.occurred_at);
+}
+```
+
+</CodeGroup>
+
+**Response** `200` — array of inbox entry objects
+
+<ResponseField name="event_type" type="string" required>
+  The event that produced this inbox entry. Typically `"document.published"` or `"document.revised"`.
+</ResponseField>
+
+<ResponseField name="organization_id" type="string" required>
+  The UUID of the organization that owns this entry.
+</ResponseField>
+
+<ResponseField name="org_slug" type="string" required>
+  The URL slug of the organization.
+</ResponseField>
+
+<ResponseField name="occurred_at" type="string" required>
+  ISO 8601 timestamp of when the document was published or revised.
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  The published document payload.
+  <Expandable title="properties">
+    <ResponseField name="document_id" type="string" required>
+      Unique identifier for the document.
+    </ResponseField>
+    <ResponseField name="title" type="string" required>
+      The document title.
+    </ResponseField>
+    <ResponseField name="version" type="string" required>
+      The version label at the time of publication (for example, `"v1.0"`).
+    </ResponseField>
+    <ResponseField name="department" type="string">
+      The department the document is assigned to, if any.
+    </ResponseField>
+    <ResponseField name="published_by_email" type="string" required>
+      Email address of the user who published or revised the document.
+    </ResponseField>
+    <ResponseField name="sections" type="object[]" required>
+      Ordered list of sections in the document.
+      <Expandable title="section properties">
+        <ResponseField name="title" type="string" required>
+          Section heading.
+        </ResponseField>
+        <ResponseField name="steps" type="object[]" required>
+          Ordered list of steps within the section.
+          <Expandable title="step properties">
+            <ResponseField name="title" type="string" required>
+              Step heading.
+            </ResponseField>
+            <ResponseField name="content" type="string" required>
+              Step body text.
+            </ResponseField>
+            <ResponseField name="sub_steps" type="object[]" required>
+              Nested sub-steps, following the same structure as steps.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+```json
+[
+  {
+    "event_type": "document.published",
+    "organization_id": "org-3f2a1b4c-8e7d-4f6a-9b0c-1d2e3f4a5b6c",
+    "org_slug": "acme-corp",
+    "occurred_at": "2024-01-15T10:30:00Z",
+    "data": {
+      "document_id": "doc-7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+      "title": "Employee Onboarding",
+      "version": "v1.0",
+      "department": "HR",
+      "published_by_email": "admin@acme-corp.com",
+      "sections": [
+        {
+          "title": "Pre-arrival",
+          "steps": [
+            {
+              "title": "Send welcome email",
+              "content": "Send the standard welcome email template from the HR shared inbox 48 hours before the start date.",
+              "sub_steps": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
+```
+
+---
+
+## Get a single document's inbox entry
+
+Return the latest inbox entry for a specific document. Use this to check whether a particular document has been published and retrieve its current payload.
+
+```
+GET /organizations/{org_slug}/inbox/{document_id}
+```
+
+### Path parameters
+
+<ParamField path="org_slug" type="string" required>
+  Your organization's URL slug. Find this in Settings → Organization.
+</ParamField>
+
+<ParamField path="document_id" type="string" required>
+  The UUID of the document to retrieve.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl https://api.docinject.io/api/v1/organizations/acme-corp/inbox/doc-7a8b9c0d \
+  -H "Authorization: Bearer <api_key>"
+```
+
+```javascript JavaScript
+const res = await fetch(
+  `https://api.docinject.io/api/v1/organizations/${orgSlug}/inbox/${documentId}`,
+  { headers: { Authorization: `Bearer ${apiKey}` } }
+);
+const entry = await res.json();
+console.log(entry.data.title, entry.data.version);
+```
+
+</CodeGroup>
+
+**Response** `200` — a single inbox entry object with the same structure as above.
+
+```json
+{
+  "event_type": "document.revised",
+  "organization_id": "org-3f2a1b4c-8e7d-4f6a-9b0c-1d2e3f4a5b6c",
+  "org_slug": "acme-corp",
+  "occurred_at": "2024-03-10T15:45:00Z",
+  "data": {
+    "document_id": "doc-7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+    "title": "Employee Onboarding",
+    "version": "v2.0",
+    "department": "HR",
+    "published_by_email": "editor@acme-corp.com",
+    "sections": [
+      {
+        "title": "Pre-arrival",
+        "steps": [
+          {
+            "title": "Send welcome email",
+            "content": "Send the standard welcome email template from the HR shared inbox 48 hours before the start date.",
+            "sub_steps": []
+          },
+          {
+            "title": "Provision accounts",
+            "content": "Create accounts in Okta, Slack, and any role-specific tools before day one.",
+            "sub_steps": [
+              {
+                "title": "Create Okta account",
+                "content": "Log in to Okta Admin and create a new user with the standard HR group assignment.",
+                "sub_steps": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+---
+
+## Inbox behavior
+
+<Note>
+  The inbox stores the **last published or revised payload** for each document. It does not retain full history. To retrieve the complete revision history for a document, use the revision chain endpoints.
+</Note>
+
+---
+
+## Polling example
+
+Combine the inbox endpoint with an API key to build a polling-based integration. Call the inbox on a schedule, compare `occurred_at` or `data.version` against your last-synced state, and process any new entries.
+
+<CodeGroup>
+
+```javascript JavaScript
+const res = await fetch(
+  `https://api.docinject.io/api/v1/organizations/${orgSlug}/inbox`,
+  { headers: { Authorization: `Bearer ${apiKey}` } }
+);
+const entries = await res.json();
+for (const entry of entries) {
+  console.log(entry.data.title, entry.occurred_at);
+}
+```
+
+```bash cURL
+# Run on a schedule (e.g. via cron) to pull the latest inbox
+curl https://api.docinject.io/api/v1/organizations/acme-corp/inbox \
+  -H "Authorization: Bearer <api_key>"
+```
+
+</CodeGroup>
+
+<Tip>
+  Generate a dedicated API key for your integration under Settings → API Keys. This lets you revoke access for a single integration without affecting other consumers.
+</Tip>

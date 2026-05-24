@@ -1,0 +1,106 @@
+---
+title: "Read document updates from the organization inbox"
+description: "Poll the organization inbox API to retrieve the latest published document payloads without configuring webhooks — authenticated with an API key."
+---
+
+The organization inbox is a per-organization feed of document publish and revision events. Each time a document is published or revised, DocInject writes the full event payload to the inbox. Polling the inbox is the simplest way to keep an external system up to date with your latest SOPs without setting up webhooks.
+
+<Tip>
+  The inbox is available on all plans. If you're on a plan without webhooks, use the inbox with an API key to build a polling integration instead.
+</Tip>
+
+## Endpoints
+
+All inbox endpoints require authentication via an API key or a user session token. See [API keys](/integrations/api-keys) for how to create one.
+
+### List all inbox entries
+
+Returns all published document payloads for the organization, most recent first.
+
+```
+GET /api/v1/organizations/{org_slug}/inbox
+```
+
+### Get a single inbox entry
+
+Returns the current inbox entry for a specific document.
+
+```
+GET /api/v1/organizations/{org_slug}/inbox/{document_id}
+```
+
+<Note>
+  Use the `org_slug` value, not the organization UUID. You can find your slug in **Settings → Organization** under the **Slug** field.
+</Note>
+
+## Example inbox entry
+
+Each entry contains the full event envelope that was written when the document was last published or revised.
+
+```json
+{
+  "document_id": "72a7b832-e878-4ebb-9d5f-e73b3d27b43c",
+  "updated_at": "2026-04-27T14:09:31.713645+00:00",
+  "payload": {
+    "event_type": "document.published",
+    "organization_id": "296de55b-2235-49ec-b3a4-f8174c9de488",
+    "org_slug": "acme",
+    "occurred_at": "2026-04-27T14:09:31.713645+00:00",
+    "data": {
+      "document_id": "72a7b832-e878-4ebb-9d5f-e73b3d27b43c",
+      "title": "Onboarding Checklist",
+      "version": "1.0",
+      "department": "HR",
+      "published_at": "2026-04-27T14:09:30.754254+00:00",
+      "published_by_email": "user@example.com",
+      "sections": [
+        {
+          "title": "Purpose",
+          "content": "A brief description of why this process exists.",
+          "images": [],
+          "steps": []
+        },
+        {
+          "title": "Steps",
+          "content": "",
+          "images": [],
+          "steps": [
+            "Complete the new hire paperwork",
+            "Set up your workstation",
+            "Attend the orientation session"
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+For revised documents, `payload.event_type` is `document.revised` and `payload.data` includes a `previous_version_id` field.
+
+## Fetch the inbox with an API key
+
+```bash
+curl https://api.docinject.io/api/v1/organizations/acme/inbox \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```bash
+# Fetch a single document's inbox entry
+curl https://api.docinject.io/api/v1/organizations/acme/inbox/72a7b832-e878-4ebb-9d5f-e73b3d27b43c \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+## When to use the inbox vs. webhooks
+
+| | Inbox (polling) | Webhooks |
+|---|---|---|
+| **Plan required** | Any plan | Scale |
+| **Delivery model** | Pull — you fetch on a schedule | Push — DocInject sends to your URL |
+| **Setup complexity** | Low — one API call | Medium — requires a public endpoint |
+| **Latency** | Depends on polling frequency | Near real-time |
+| **Best for** | Simple integrations, scheduled syncs | Event-driven automations, real-time triggers |
+
+<Tip>
+  Use the [Automation Assistant](/integrations/automation-assistant) to generate a scheduled polling recipe for your chosen platform — it can reference the inbox endpoints directly and format the output for tools like Make, Zapier, or n8n.
+</Tip>

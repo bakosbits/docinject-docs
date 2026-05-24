@@ -1,0 +1,117 @@
+---
+title: "Key concepts in DocInject"
+description: "Learn the core terminology used throughout DocInject: documents, statuses, node structure, organizations, webhooks, share tokens, and the organization inbox."
+---
+
+This page explains the core terms and mental models you'll encounter throughout DocInject. Read this before diving into the rest of the documentation — it will make everything else easier to follow.
+
+<AccordionGroup>
+
+<Accordion title="Document">
+  A document is the top-level container for a single SOP, playbook, or guide. Every document has:
+
+  - **Title** — The name displayed in the dashboard and payloads.
+  - **Version** — A free-form string (e.g., `1.0`, `v2`, `2024-Q3`) that you manage manually. When you create a revision, the new draft must have a different version from the published original.
+  - **Department** — An optional label that scopes the document to a team or function (e.g., `Marketing`, `Ops`). Departments are defined per organization in Settings.
+  - **Status** — The current state in the document lifecycle (see below).
+
+  Documents are owned by the member who created them and can have an assigned co-author (editor).
+</Accordion>
+
+<Accordion title="Status">
+  Every document moves through a defined lifecycle:
+
+  | Status | Meaning |
+  |---|---|
+  | **Draft** | Work in progress. The document is editable and not yet published. |
+  | **Published** | The current source of truth. Publishing locks the document and fires the `document.published` event. |
+  | **Revised** | A new draft has been created from this published document. The original is still published and accessible; the revision is in draft until it is published. |
+  | **Archived** | The document has been retired. Archiving fires the `document.archived` event. |
+
+  When you create a revision from a published document, DocInject creates a new draft linked to the original via `parent_doc_id`. Publishing that revision fires a `document.revised` event and includes `previous_version_id` in the payload.
+
+  <Note>
+    You cannot edit a published document directly. Always create a revision to make changes to a document that is already published.
+  </Note>
+</Accordion>
+
+<Accordion title="Node structure">
+  The content inside a document is made of **nodes** — the individual building blocks organized in a tree. DocInject supports three levels:
+
+  1. **Section** — Top-level grouping. Every document contains one or more sections.
+  2. **Step** — A child of a section. Describes a specific action or piece of information within that section.
+  3. **Sub-step** — A child of a step. Used for more granular detail or nested instructions.
+
+  The maximum depth is three levels: section → step → sub-step. This constraint keeps documents composable and ensures the structured payload can be routed reliably into downstream tools.
+
+  Nodes can be reordered within their parent and moved between parents of the same level.
+</Accordion>
+
+<Accordion title="Organization">
+  An organization is your DocInject workspace. It is created automatically when the first admin signs up, and every user belongs to exactly one organization.
+
+  Members have one of two roles:
+
+  | Role | Permissions |
+  |---|---|
+  | **Admin** | Full access — manage members, departments, webhooks, API keys, billing, and all documents. |
+  | **Member** | Can create and edit documents they own or are assigned to as an editor. |
+
+  Admins can invite members via Settings. Invited users receive an email with a link to set up their account and join the organization.
+</Accordion>
+
+<Accordion title="Webhook">
+  A webhook is an HTTP callback that DocInject sends to a URL you register whenever a document event occurs. DocInject fires webhooks for the following events:
+
+  | Event | When it fires |
+  |---|---|
+  | `document.created` | A new document is created |
+  | `document.published` | A draft is published for the first time |
+  | `document.revised` | A revision of a published document is published |
+  | `document.archived` | A document is archived |
+  | `document.assigned` | An editor is assigned to a document |
+
+  Each event delivers a structured JSON payload containing the document's metadata, sections, steps, and sub-steps. You can use webhooks to push content into Slack, create tasks in Asana, ClickUp, or Linear, update CRM records in HubSpot, or trigger any automation platform such as Zapier, Make, n8n, or Pipedream.
+
+  You can also replay a webhook for an existing document without re-publishing it using the trigger-webhooks endpoint.
+
+  Configure webhooks in **Settings → Webhooks**. Webhooks are available on the Scale plan.
+</Accordion>
+
+<Accordion title="Share token">
+  A share token is a unique identifier tied to a published document that generates a public view URL. The URL follows the pattern:
+
+  ```
+  app.docinject.io/embed/{org_slug}/{token}
+  ```
+
+  Anyone with the link can view the published document — no DocInject account required. Share tokens are per-document and can be revoked at any time. Once revoked, the URL stops working.
+
+  You can create, retrieve, and revoke share tokens via the API or from within the document editor.
+</Accordion>
+
+<Accordion title="Inbox">
+  The inbox is a per-organization feed of published document payloads. Every time a document is published or a revision is published, DocInject writes the full structured payload to the inbox, keyed by the document's root ID (the original, pre-revision document ID).
+
+  This means the inbox always holds the latest published version of each document, regardless of how many revisions it has gone through.
+
+  Pull inbox entries via the REST API to build integrations that stay in sync with your latest published content without subscribing to individual webhook events.
+</Accordion>
+
+<Accordion title="Template">
+  A template is a `.docx` file you upload to DocInject to control the formatting and branding of Word exports. When you export a document, DocInject merges the document's structured content into your template, producing a branded `.docx` file.
+
+  Upload templates under your profile settings. You can maintain multiple templates (e.g., one per department or brand).
+
+  <Info>
+    Markdown export does not require a template — it is always available and does not depend on any uploaded file.
+  </Info>
+</Accordion>
+
+<Accordion title="Automation Assistant">
+  The Automation Assistant is an AI chat interface built into the DocInject dashboard. Describe the workflow you want to automate and it generates a ready-to-use recipe for platforms including Gumloop, Make, n8n, Pipedream, and Zapier.
+
+  Open the assistant from the **Automation Assistant** button in the top-right of the dashboard. The assistant is available on the Scale plan.
+</Accordion>
+
+</AccordionGroup>

@@ -1,0 +1,59 @@
+---
+title: "Documents in DocInject"
+description: "Learn what documents are in DocInject, how draft, published, and archived statuses work, and how the revision flow keeps your history intact."
+---
+
+Documents are the core artifact in DocInject. Each document represents a single SOP, playbook, or guide — structured as a hierarchy of sections, steps, and sub-steps — along with a title, version number, and optional department assignment. You create, edit, and publish documents to make them available as process context for your team and connected systems.
+
+## What a document contains
+
+Every document has the following fields:
+
+- **Title** — the name of the SOP or guide.
+- **Version** — a free-form version string (e.g. `1.0`, `v2`, `2024-Q1`). Version is required when generating documents with AI.
+- **Department** — an optional grouping field. If your organization has departments configured, department becomes required.
+- **Node tree** — the content of the document, structured as a three-level hierarchy: sections contain steps, and steps can contain sub-steps.
+
+## Document statuses
+
+Every document moves through a defined lifecycle with three possible statuses.
+
+<CardGroup cols={3}>
+  <Card title="Draft" icon="pencil">
+    A document you are actively editing. Drafts are private and can be modified freely. A document starts as a draft when first created.
+  </Card>
+  <Card title="Published" icon="circle-check">
+    A document that has been finalized and made available. Published documents are read-only. Publishing triggers the `document.published` webhook event.
+  </Card>
+  <Card title="Archived" icon="box-archive">
+    A published document that is no longer active. Archived documents move to the Archives section. Archiving triggers the `document.archived` webhook event.
+  </Card>
+</CardGroup>
+
+## Revision flow
+
+When you need to update a published document, you create a **revision** rather than editing it directly. Revising a published document creates a new draft that is linked to the original. The new draft gets its own version number — it cannot share the version of the published document it came from.
+
+When you publish the revision, DocInject fires the `document.revised` webhook event (instead of `document.published`) and the previous version is moved to the document's revision history, where it remains readable.
+
+<Note>
+  Published documents are read-only. To make changes, always start by clicking **Revise** on the published document.
+</Note>
+
+## Dashboard counts
+
+Your dashboard displays four counts at a glance: **Drafts**, **Published**, **Revised**, and **Archived**. These reflect the current state of all documents in your organization.
+
+## Next steps
+
+<CardGroup cols={3}>
+  <Card title="Generate with AI" icon="wand-magic-sparkles" href="/documents/ai-generation">
+    Create a document from notes, audio, video, or an uploaded file.
+  </Card>
+  <Card title="Editor" icon="pen-to-square" href="/documents/editor">
+    Learn how to build and edit the node tree in the document editor.
+  </Card>
+  <Card title="Publish & archive" icon="rocket" href="/documents/publish-archive">
+    Move documents through the publish lifecycle and manage webhooks.
+  </Card>
+</CardGroup>

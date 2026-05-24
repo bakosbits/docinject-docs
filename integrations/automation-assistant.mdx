@@ -1,0 +1,64 @@
+---
+title: "Build automations with the DocInject AI assistant"
+description: "Use the Automation Assistant to generate ready-to-use workflow recipes for Zapier, Make, n8n, Pipedream, Gumloop, and more — tailored to your SOPs."
+---
+
+The Automation Assistant helps you connect DocInject documents to the workflow tools your team already uses. Describe what you want to automate and the assistant generates a complete, platform-specific recipe you can copy directly into your automation tool.
+
+## Supported platforms
+
+- Gumloop
+- Make
+- n8n
+- Pipedream
+- Zapier
+- Other (generic HTTP / custom)
+
+## How to use it
+
+<Steps>
+  <Step title="Open the Automation Assistant">
+    Click **Build an automation** from the Dashboard. The assistant opens as a panel.
+  </Step>
+  <Step title="Select a document (optional)">
+    Choose the SOP, playbook, or guide you want to automate around. The assistant uses the document's title, department, and content to tailor the recipe. Select **Skip** if you want a general automation not tied to a specific document.
+  </Step>
+  <Step title="Select a department (optional)">
+    If your organization has departments configured, choose the relevant one. Select **Skip** to continue without a department filter.
+  </Step>
+  <Step title="Choose your automation platform">
+    Select the platform you're building on. This determines the syntax and structure of the generated recipe.
+  </Step>
+  <Step title="Describe your automation">
+    Type what you want to automate in the chat. The assistant may ask one or two focused questions to clarify the outcome. Once it has enough context, it generates a complete recipe.
+  </Step>
+  <Step title="Copy the recipe">
+    When the recipe appears in the **Your automation recipe** panel, click **Copy** and paste it into your automation tool.
+  </Step>
+</Steps>
+
+## What the assistant generates
+
+The assistant produces a step-by-step recipe written in the native vocabulary of your chosen platform — using the correct module names, field references, and variable syntax for that tool. For webhook-based automations, it includes the signature verification step using your webhook secret, because DocInject requires signature verification before processing any event.
+
+<Tip>
+  Set up a webhook in **Settings → Webhooks** before using the assistant for event-driven automations. The assistant will reference the `X-DocInject-Signature` header and prompt you to enter your webhook secret when configuring the recipe.
+</Tip>
+
+## Example automations
+
+<AccordionGroup>
+  <Accordion title="Notify a Slack channel when a document is published">
+    Set up a `document.published` webhook, then use the assistant with your Slack workspace as the goal. The recipe will trigger on the webhook, verify the signature, extract the document title and URL from the payload, and post a formatted message to a channel of your choice.
+  </Accordion>
+  <Accordion title="Trigger an onboarding flow when an SOP is revised">
+    Select your onboarding SOP, choose the `document.revised` event, and describe the downstream action (for example, reassigning tasks in your project tool or sending an email to new hires). The recipe references `data.previous_version_id` so you can compare versions.
+  </Accordion>
+  <Accordion title="Poll the inbox to sync documents to a CRM or knowledge base">
+    If you can't use webhooks, describe a polling automation and the assistant will generate a scheduled recipe that calls `GET /api/v1/organizations/{org_slug}/inbox` with your API key and upserts the results into your target system.
+  </Accordion>
+</AccordionGroup>
+
+## Reset and start over
+
+Click **Change** in the context bar at the top of the chat to reset your document, department, and platform selections and start a new automation from the beginning.

@@ -1,0 +1,91 @@
+---
+title: "Get started with DocInject"
+description: "Create your DocInject account, build and publish your first SOP, then share it via embed link or route events to an automation platform in minutes."
+---
+
+This guide walks you from a brand-new account to a published, deployed document. By the end, you'll have created a document, added structure to it, published it, and either shared it via an embed link or wired it to a webhook.
+
+<Steps>
+
+<Step title="Sign up">
+  Go to [app.docinject.io/signup](https://app.docinject.io/signup) and create your account.
+
+  <Note>
+    Public signups may be waitlisted during early access. If you see a waitlist form, submit your email and you'll receive an invite link when your spot opens.
+  </Note>
+</Step>
+
+<Step title="Create your organization">
+  On first sign-in, DocInject creates your organization automatically. Your organization is the workspace where all your documents, members, departments, and settings live.
+
+  Before you start creating documents, consider setting up a few things:
+
+  - **Departments** — Organize documents by team or function (Marketing, Ops, HR, etc.). Go to **Settings** to add departments.
+  - **Team members** — Invite colleagues from **Settings** so they can collaborate on documents.
+  - **Export template** — If you plan to export documents to Word, upload a branded `.docx` template under your profile.
+</Step>
+
+<Step title="Create your first document">
+  From the dashboard, click **New Document**. DocInject gives you five ways to get started:
+
+  | Mode | What you provide |
+  |---|---|
+  | **Blank** | Nothing — start typing in the editor |
+  | **Notes** | Paste in raw text or describe the process |
+  | **Audio** | Upload an MP3, WAV, OGG, or M4A file (max 25 MB) |
+  | **Video** | Upload an MP4, MOV, or WEBM file (max 2 GB) |
+  | **Document** | Upload a PDF, DOCX, or TXT file (max 20 MB) |
+
+  For AI-assisted modes (Notes, Audio, Video, Document), DocInject generates a draft outline and asks a few clarifying questions before creating the document. Review the draft outline and fill in any answers — these help the AI fill gaps in the generated content.
+
+  Give your document a **title**, **version**, and optionally a **department** before submitting.
+
+  <Tip>
+    If you have an existing SOP in another tool, the **Document** mode is the fastest way to import it. Upload the file and DocInject will extract and structure the content for you.
+  </Tip>
+</Step>
+
+<Step title="Add sections, steps, and sub-steps">
+  Once the document opens in the editor, you'll see its structure: sections at the top level, steps nested inside sections, and sub-steps nested inside steps.
+
+  Use the editor to:
+
+  - Add, rename, or reorder sections
+  - Add steps under each section to describe what to do
+  - Add sub-steps under steps for more granular detail
+
+  Documents support up to three levels of depth: section → step → sub-step.
+
+  <Info>
+    If you generated the document from an AI mode, the editor will already contain a draft structure. Review it and edit as needed before publishing.
+  </Info>
+</Step>
+
+<Step title="Publish the document">
+  When the document is ready, click **Publish**. Publishing does two things:
+
+  1. Locks the document as the current source of truth with a `published` status.
+  2. Fires a `document.published` webhook event (if you have webhooks configured) and updates the organization inbox.
+
+  <Warning>
+    You cannot edit a published document directly. To make changes, create a revision — this produces a new draft linked to the published version, which you can edit and publish separately.
+  </Warning>
+</Step>
+
+<Step title="Share or deploy">
+  A published document is ready to share or deploy. Choose the option that fits your workflow:
+
+  **Share via embed link**
+
+  Open the document and generate a share token. This creates a public URL at `app.docinject.io/embed/{org_slug}/{token}` that anyone can view without a DocInject account. Copy the URL from the **Shareable links** section of your dashboard.
+
+  **Connect a webhook**
+
+  Go to **Settings → Webhooks** and register an endpoint URL. DocInject will POST a structured JSON payload to that URL whenever a document event fires. Use this to push content to Slack, create tasks in Asana or Linear, update records in HubSpot, or trigger any automation platform.
+
+  **Pull via the REST API**
+
+  Authenticate with an API key and call the documents API to retrieve, list, or export documents programmatically. See the [API reference](/api/authentication) to get started.
+</Step>
+
+</Steps>

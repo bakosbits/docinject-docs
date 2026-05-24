@@ -1,0 +1,100 @@
+---
+title: "Editing documents in DocInject"
+description: "Use the document editor to build and refine a node tree of sections, steps, and sub-steps with rich text content, drag-and-drop reordering, and auto-save."
+---
+
+The document editor is where you write and structure your document content. It is divided into two areas: a left sidebar showing the document tree, and a main editor area where you write content for the selected node. Changes save automatically as you work.
+
+## The document tree
+
+The left sidebar displays your document as a collapsible tree. The tree represents the full structure of your document and is where you manage nodes — adding, reordering, indenting, and deleting them.
+
+At the top of the sidebar are two controls:
+
+- **Document outline** — toggle a full read-only outline of all sections, steps, and sub-steps in the main panel.
+- **Add section** — create a new top-level section at the bottom of the document.
+
+## Node types
+
+Documents use a three-level hierarchy. The levels are fixed — you cannot nest deeper than three levels.
+
+| Level | Node type | Contains |
+|-------|-----------|----------|
+| 1 | Section | Steps and/or content |
+| 2 | Step | Sub-steps and/or content |
+| 3 | Sub-step | Content only |
+
+Each node has a **title** and optional **rich text content**.
+
+## Working with nodes
+
+### Adding nodes
+
+- Click **Add section** in the sidebar to add a new top-level section.
+- To add a step inside a section, or a sub-step inside a step, use the add controls that appear when you hover over a node in the tree.
+
+### Renaming nodes
+
+Click into the title field at the top of the main editor area (below the node type label) and type the new name. The title saves automatically after a short pause.
+
+You can also rename the document itself by clicking the document title in the top bar.
+
+### Reordering nodes
+
+Drag and drop nodes within the tree to reorder them. You can only reorder nodes within the same level — drag a section to reorder among sections, a step to reorder among its siblings within the same section, and so on.
+
+### Indenting and outdenting nodes
+
+Use **indent** (demote) and **outdent** (promote) to change a node's level in the hierarchy.
+
+- **Outdent (promote):** moves a step up to become a section, or a sub-step up to become a step. Right-click or use the node's context controls in the tree.
+- **Indent (demote):** moves a section down to become a step inside the preceding section, or a step down to become a sub-step inside the preceding step.
+
+<Warning>
+  You cannot demote a section that has steps with sub-steps — doing so would create a fourth level, which is not supported. Remove the sub-steps first.
+
+  You cannot demote a step that already has sub-steps, for the same reason.
+</Warning>
+
+### Deleting nodes
+
+Right-click a node in the tree and choose the delete option, or use the delete button that appears on hover. Deleting a node also deletes all of its children.
+
+<Warning>
+  Deletion is permanent and cannot be undone. A confirmation prompt appears before the node is removed.
+</Warning>
+
+## Writing content
+
+Clicking a node in the tree opens it in the main editor area. The editor supports rich text formatting through a toolbar at the top of the content area.
+
+**Available formatting:**
+
+- **Bold** and **italic** text
+- **Bullet lists**, **numbered lists**, and **checklists**
+- **Images** — upload via the image button in the toolbar, or paste an image directly into the editor
+
+The editor also supports markdown shortcuts. For example, typing `**` around text applies bold.
+
+## Auto-save
+
+The editor saves continuously as you work. A status indicator in the top bar shows **Saving…** while a save is in progress and **Saved** once it completes. You do not need to manually save.
+
+## Document outline view
+
+Click **Document outline** at the top of the sidebar to switch the main panel to a read-only outline of the entire document. The outline displays all sections, steps, and sub-steps with their titles in a structured layout — useful for reviewing the overall structure before publishing.
+
+Click **Document outline** again to return to the editing view.
+
+## Image uploads
+
+To add an image to a node's content:
+
+- Click the image icon in the toolbar and select a file from your computer, or
+- Paste an image directly into the editor content area.
+
+Images are uploaded to DocInject and stored as part of the document.
+
+## Video frames panel
+
+If you created the document from a video, a frames panel is available in the editor. Click the camera icon in the toolbar to open it. The panel shows key frames extracted from your video, organized by timestamp. Click a frame to insert it as an image into the current node's content.

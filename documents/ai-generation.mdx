@@ -1,0 +1,113 @@
+---
+title: "Generate documents from AI in DocInject"
+description: "Use AI to create documents from pasted notes, audio recordings, video demonstrations, or uploaded files — or start from a blank document."
+---
+
+DocInject can generate a structured document from several types of input: pasted text, an audio recording, a video demonstration, or an existing document file. In each case, the AI produces a draft outline and then asks you a few clarifying questions before creating the final document. If you prefer to write from scratch, you can also start with a blank document.
+
+## Creation modes
+
+Choose a mode when you click **New document**. Each mode follows the same three-step flow — provide metadata, supply your input, then review the draft and answer questions — but the type of input differs.
+
+<Note>
+  Version is required for all AI-generated documents. If your organization has departments configured, department is also required.
+</Note>
+
+<Tabs>
+  <Tab title="Notes">
+    Use the Notes mode to paste raw text, bullet points, or a written description of a process. The AI reads your input and produces a structured draft outline.
+
+    <Steps>
+      <Step title="Fill in the document details">
+        Enter a title (optional — the AI can infer one), a version, and a department if required. Then paste your notes or process description into the text field.
+      </Step>
+      <Step title="Generate the draft outline">
+        Click **Generate draft**. The AI reads your notes and returns a structured outline showing the proposed sections and step counts.
+      </Step>
+      <Step title="Answer clarifying questions">
+        Review the draft outline. Answer the AI's questions to fill in any gaps, then click **Create document**. The editor opens with the fully generated document.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Audio">
+    Use the Audio mode to upload a recorded walkthrough or verbal explanation of a process. The file is transcribed and the transcript is used to generate the draft.
+
+    **Accepted formats:** MP3, WAV, OGG, M4A — maximum 25 MB.
+
+    <Steps>
+      <Step title="Fill in the document details">
+        Enter a title (optional), a version, and a department if required. Click the upload area and select your audio file.
+      </Step>
+      <Step title="Transcribe and generate the draft">
+        Click **Generate draft**. DocInject uploads the file and transcribes it, then the AI produces a structured outline. This step takes some time depending on file length.
+      </Step>
+      <Step title="Answer clarifying questions">
+        Review the draft outline. Answer the AI's questions, then click **Create document**. The editor opens with the generated document.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Video">
+    Use the Video mode to upload a screen recording or video demonstration of a process. DocInject extracts key frames and uses the video content to generate the draft. Key frames from the video are available to insert into your document nodes in the editor.
+
+    **Accepted formats:** MP4, MOV, WEBM — maximum 2 GB.
+
+    <Steps>
+      <Step title="Fill in the document details">
+        Enter a title (optional), a version, and a department if required. Click the upload area and select your video file.
+      </Step>
+      <Step title="Upload and process the video">
+        Click **Generate draft**. A progress bar tracks the upload. Once the upload completes, DocInject processes the video, extracts key frames, and generates a draft outline. This step takes several minutes.
+      </Step>
+      <Step title="Answer clarifying questions">
+        Review the draft outline. Answer the AI's questions, then click **Create document**. The editor opens with the generated document and your video frames available in the frames panel.
+      </Step>
+    </Steps>
+
+    <Tip>
+      After the document is created, use the frames panel in the editor to insert screenshots from the video directly into your node content.
+    </Tip>
+  </Tab>
+
+  <Tab title="Document">
+    Use the Document mode to upload an existing PDF, Word document, or plain text file. The AI reads the file and restructures it as a DocInject document.
+
+    **Accepted formats:** PDF, DOCX, TXT — maximum 20 MB.
+
+    <Steps>
+      <Step title="Fill in the document details">
+        Enter a title (optional), a version, and a department if required. Click the upload area and select your file.
+      </Step>
+      <Step title="Read the file and generate the draft">
+        Click **Generate draft**. DocInject uploads the file and the AI reads its contents, then produces a structured outline. Processing time depends on document length.
+      </Step>
+      <Step title="Answer clarifying questions">
+        Review the draft outline. Answer the AI's questions, then click **Create document**. The editor opens with the generated document.
+      </Step>
+    </Steps>
+  </Tab>
+
+  <Tab title="Blank">
+    Use the Blank mode to start a document from scratch with no AI assistance.
+
+    <Steps>
+      <Step title="Fill in the document details">
+        Enter a title (required for blank documents), and optionally a version and department. Title, version, and department can all be edited later in the editor.
+      </Step>
+      <Step title="Create the document">
+        Click **Create Document**. The editor opens with an empty document ready for you to build your node tree.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## The draft outline and clarifying questions
+
+For all AI modes, after the AI processes your input you see a **draft outline** — a preview of the proposed sections and their step counts. This is your chance to confirm the structure before the document is fully generated.
+
+Below the outline, the AI asks a small set of clarifying questions to fill in details it could not determine from your input. Your answers are short text fields — they do not need to be exhaustive. You can always refine content in the editor after the document is created.
+
+<Info>
+  You can leave clarifying question answers blank if you don't have the information available. The AI will generate the document with what it has.
+</Info>

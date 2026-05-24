@@ -1,0 +1,76 @@
+---
+title: "Embed a DocInject document on any page"
+description: "Generate a public embed URL and iframe snippet for any published document, then drop it into HubSpot, ClickUp, Notion, or any tool that supports iframes."
+---
+
+Embedding lets you display a published DocInject document inside any external tool or webpage without requiring viewers to log in. Each published document gets its own unique public URL — paste it into an iframe and the document renders immediately, read-only, for anyone who has the link.
+
+## How embed links work
+
+An embed link is a public URL with the format:
+
+```
+https://app.docinject.io/embed/{org_slug}/{token}
+```
+
+When a viewer opens this URL, DocInject fetches the document content and renders it as a clean, read-only page. No account or login is needed.
+
+<Note>
+  Only **published** documents can have embed links. Draft and archived documents do not support embedding.
+</Note>
+
+## Create an embed link
+
+<Steps>
+  <Step title="Open a published document">
+    Navigate to the document you want to share. The document must have a **Published** status.
+  </Step>
+  <Step title="Click Embed">
+    In the document toolbar, click **Embed**. The Embed modal opens.
+  </Step>
+  <Step title="Create the link">
+    If no embed link exists yet, click **Create embed link**. DocInject generates a unique token and displays both the embed URL and an iframe snippet.
+  </Step>
+  <Step title="Copy the URL or iframe snippet">
+    Use the copy button next to the **Embed URL** field to copy just the URL, or copy the **iframe snippet** to paste directly into an HTML page or CMS.
+  </Step>
+</Steps>
+
+<Tip>
+  All active embed links for your organization are listed on the **Dashboard** under **Shareable links**, so you can copy any of them without opening the document.
+</Tip>
+
+## Add to a webpage
+
+Paste the iframe snippet from the Embed modal into any HTML page:
+
+```html
+<iframe
+  src="https://app.docinject.io/embed/YOUR_ORG_SLUG/YOUR_TOKEN"
+  width="100%"
+  height="600"
+  frameborder="0"
+  allow="fullscreen"
+></iframe>
+```
+
+Adjust `width` and `height` to fit your layout. The document content scrolls inside the iframe if it exceeds the set height.
+
+## Reset or remove an embed link
+
+Open the **Embed** modal for the document and use the actions at the bottom:
+
+- **Reset link** — generates a new token and invalidates the old URL. Any existing embeds using the old link will stop working. DocInject asks you to click a second time to confirm.
+- **Remove link** — deletes the token immediately. The embed URL stops working and the link is removed from the Dashboard.
+
+<Warning>
+  Resetting a link permanently breaks all existing embeds that use the old URL. Update any pages where you've placed the old iframe snippet.
+</Warning>
+
+## Availability
+
+| Condition | Embed link |
+|---|---|
+| Document is published | Available |
+| Document is a draft | Not available |
+| Document is archived | Link is inactive |

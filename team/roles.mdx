@@ -1,0 +1,85 @@
+---
+title: "Roles and permissions in DocInject"
+description: "Learn the difference between Admin and Member roles in DocInject, what each role is allowed to do, and how to change a member's role in Settings."
+---
+
+DocInject has two roles: **Admin** and **Member**. Every member of your organization has one of these roles, and roles can be changed at any time by an admin.
+
+## Role comparison
+
+| Capability | Admin | Member |
+|---|---|---|
+| Invite team members | Yes | No |
+| Remove team members | Yes | No |
+| Change member roles | Yes | No |
+| Edit organization name | Yes | No |
+| Add and delete departments | Yes | No |
+| Manage billing and subscriptions | Yes | No |
+| View and manage all webhooks | Yes | No |
+| Access all API keys | Yes | No |
+| Create webhooks | Yes | Yes |
+| Create, edit, publish, and archive documents | Yes | Yes (owned/assigned) |
+| View the team member list | Yes | Yes |
+| Access their own profile and API keys | Yes | Yes |
+
+## Admin
+
+Admins have full control over the organization. An admin can:
+
+- Invite and remove team members
+- Change any member's role
+- Edit the organization name
+- Add and delete department labels
+- Manage billing and subscriptions via the Billing tab
+- View, edit, and delete any webhook created by any team member
+- Create, edit, publish, and archive any document in the organization
+- Access and delete all API keys in the organization
+
+<Warning>
+  Every organization must have at least one admin. You cannot demote or remove the last admin. Promote another member to admin first.
+</Warning>
+
+## Member
+
+Members can collaborate on documents and create webhook integrations, but cannot change organization settings or manage other users. A member can:
+
+- Create, edit, publish, and archive documents they own or are assigned to
+- Create webhooks (admins can see and manage all webhooks from the Webhooks tab)
+- View the full team member list
+- Access their own profile and API keys
+
+## Document ownership
+
+Each document has an owner — the person who created it by default. Document ownership determines which members can edit or manage a document when no explicit editor assignment exists.
+
+Admins can reassign ownership or assign a different editor to any document. See [Manage team members](/team/members) for steps to transfer document ownership.
+
+## Changing a member's role
+
+<Steps>
+  <Step title="Open the Team tab">
+    Go to **Settings** and click the **Team** tab.
+  </Step>
+  <Step title="Find the member">
+    Locate the member in the list.
+  </Step>
+  <Step title="Change their role">
+    Click **Make admin** to promote a member, or **Make member** to demote an admin.
+  </Step>
+</Steps>
+
+<Note>
+  Role changes take effect immediately. The member's new permissions apply on their next action — they don't need to sign out and back in.
+</Note>
+
+<AccordionGroup>
+  <Accordion title="What happens if I accidentally demote myself?">
+    If there's another admin in the organization, they can promote you back. If you were the only admin, the button is disabled — DocInject prevents demoting the last admin.
+  </Accordion>
+  <Accordion title="Can a member see other members' documents?">
+    Members can view the team member list but only have edit access to documents they own or are explicitly assigned to. Admins can access all documents.
+  </Accordion>
+  <Accordion title="Who can see webhooks created by members?">
+    Any member can create a webhook. Admins see all webhooks organization-wide in the Webhooks tab and can edit or delete any of them.
+  </Accordion>
+</AccordionGroup>

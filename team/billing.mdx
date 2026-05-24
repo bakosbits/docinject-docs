@@ -1,0 +1,101 @@
+---
+title: "Manage your DocInject subscription"
+description: "Review your plan, track trial usage, upgrade to a paid plan, add seats, and manage payment details through the Stripe billing portal."
+---
+
+Billing in DocInject is managed from **Settings → Billing**. You can check your current plan usage, upgrade from a trial, purchase additional seats, and update payment details — all without leaving the app.
+
+<Note>
+  DocInject uses Stripe to process payments. DocInject does not store your card details.
+</Note>
+
+## Plans and trials
+
+New organizations start on a trial plan. The trial gives you a limited number of publish events to evaluate the platform. Once you reach the cap, you must upgrade to a paid plan to continue publishing documents.
+
+The **Billing** tab shows your current usage:
+
+- **Publish events used** — how many documents you've published during the trial, out of the plan cap
+- **Team members** — current seat count versus your plan's seat limit
+
+<Tip>
+  Check Settings → Billing regularly during your trial to monitor how many publish events remain before you need to upgrade.
+</Tip>
+
+## Upgrade to a paid plan
+
+<Steps>
+  <Step title="Open the Billing tab">
+    Go to **Settings** and click the **Billing** tab.
+  </Step>
+  <Step title="Click Purchase a Plan">
+    Click the **Purchase a Plan** button. You'll be taken to a plan selection page.
+  </Step>
+  <Step title="Choose your plan">
+    Review the available plans and select the one that fits your team. You can upgrade or cancel at any time from your billing settings.
+  </Step>
+  <Step title="Complete checkout">
+    You're redirected to Stripe to enter payment details and confirm your purchase. After checkout, your organization is upgraded immediately.
+  </Step>
+</Steps>
+
+## Manage your subscription
+
+Once you're on a paid plan, use the Stripe customer portal to update payment methods, download invoices, or cancel.
+
+<Steps>
+  <Step title="Open the Billing tab">
+    Go to **Settings** and click the **Billing** tab.
+  </Step>
+  <Step title="Open the billing portal">
+    Click **Manage billing**. You're redirected to the Stripe customer portal.
+  </Step>
+  <Step title="Make changes">
+    Update your payment method, view past invoices, or cancel your subscription. Changes take effect according to Stripe's billing cycle rules.
+  </Step>
+</Steps>
+
+## Add seats
+
+On the Scale plan, you can purchase additional member slots beyond your plan's base seat limit.
+
+<Steps>
+  <Step title="Open the Billing tab">
+    Go to **Settings** and click the **Billing** tab.
+  </Step>
+  <Step title="Click Purchase additional seats">
+    Click the **Purchase additional seats** button. You're taken to a Stripe checkout page to add seats.
+  </Step>
+  <Step title="Complete checkout">
+    Confirm the purchase in Stripe. The new seats are available immediately after checkout.
+  </Step>
+</Steps>
+
+<Note>
+  The **Purchase additional seats** button is only available on the Scale plan. If you're on a different paid plan and need more seats, use **Manage billing** to adjust your subscription.
+</Note>
+
+## Plan limits
+
+DocInject enforces the following limits based on your current plan:
+
+| Limit | Description |
+|---|---|
+| `publish_event_cap` | Maximum number of documents you can publish on the trial plan. Once reached, publishing is blocked until you upgrade. |
+| `max_members` | Maximum number of team members on your base plan. Additional seats can be purchased on the Scale plan. |
+| `webhooks` | Whether webhook integrations are enabled. Webhooks require the Scale plan. |
+
+<AccordionGroup>
+  <Accordion title="What happens when I hit the trial publish cap?">
+    DocInject blocks further publishing until you upgrade. Existing published documents remain accessible. Upgrade from Settings → Billing to remove the cap.
+  </Accordion>
+  <Accordion title="Can I add members beyond my seat limit?">
+    No. Inviting new members is blocked when you've reached your seat limit. Purchase additional seats from Settings → Billing, or upgrade your plan.
+  </Accordion>
+  <Accordion title="Are webhooks available on the trial?">
+    No. Webhook integrations require the Scale plan. The Webhooks tab shows an upgrade prompt if your current plan doesn't include this feature.
+  </Accordion>
+  <Accordion title="Where can I find my invoices?">
+    Invoices are available in the Stripe customer portal. Go to Settings → Billing and click **Manage billing** to access them.
+  </Accordion>
+</AccordionGroup>

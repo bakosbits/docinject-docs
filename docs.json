@@ -1,0 +1,156 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "almond",
+  "name": "DocInject",
+  "description": "DocInject helps teams create, manage, and deploy SOPs, playbooks, and guides into the tools and workflows they already use.",
+  "colors": {
+    "primary": "#f1d262",
+    "light": "#7c6c34",
+    "dark": "#19160b"
+  },
+  "favicon": "https://icons.duckduckgo.com/ip3/babeljs.io.ico",
+  "icons": {
+    "library": "lucide"
+  },
+  "styling": {
+    "eyebrows": "breadcrumbs"
+  },
+  "contextual": {
+    "options": ["copy", "view", "assistant", "mcp", "add-mcp"]
+  },
+  "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Home",
+          "icon": "house",
+          "href": "/"
+        },
+        {
+          "anchor": "API Reference",
+          "icon": "code",
+          "href": "/api/authentication"
+        }
+      ]
+    },
+    "directory": "card",
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "icon": "rocket",
+            "expanded": true,
+            "pages": [
+              "introduction",
+              "quickstart",
+              "concepts"
+            ]
+          },
+          {
+            "group": "Creating Documents",
+            "icon": "file-text",
+            "expanded": true,
+            "pages": [
+              "documents/overview",
+              "documents/ai-generation",
+              "documents/editor",
+              "documents/publish-archive"
+            ]
+          },
+          {
+            "group": "Sharing & Exporting",
+            "icon": "share-2",
+            "expanded": true,
+            "pages": [
+              "sharing/embed",
+              "sharing/export",
+              "sharing/share-links"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "icon": "plug",
+            "expanded": true,
+            "pages": [
+              "integrations/webhooks",
+              "integrations/api-keys",
+              "integrations/automation-assistant",
+              "integrations/inbox"
+            ]
+          },
+          {
+            "group": "Team & Settings",
+            "icon": "users",
+            "expanded": true,
+            "pages": [
+              "team/members",
+              "team/roles",
+              "team/billing"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "icon": "book-open",
+            "expanded": true,
+            "pages": [
+              "api/authentication",
+              "api/errors"
+            ]
+          },
+          {
+            "group": "Documents",
+            "icon": "file",
+            "expanded": true,
+            "pages": [
+              "api/documents/list",
+              "api/documents/create",
+              "api/documents/publish",
+              "api/documents/export"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "icon": "webhook",
+            "expanded": true,
+            "pages": [
+              "api/webhooks/overview",
+              "api/webhooks/events",
+              "api/webhooks/manage"
+            ]
+          },
+          {
+            "group": "Organization",
+            "icon": "building-2",
+            "expanded": true,
+            "pages": [
+              "api/organizations/members",
+              "api/organizations/inbox"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "https://media.brand.dev/60a90780-779d-4b80-a52e-b7b5166da58e.png",
+    "dark": "https://media.brand.dev/60a90780-779d-4b80-a52e-b7b5166da58e.png"
+  },
+  "navbar": {
+    "links": [],
+    "primary": {
+      "type": "button",
+      "label": "Sign Up",
+      "href": "https://app.docinject.io/signup"
+    }
+  },
+  "footer": {
+    "socials": {}
+  }
+}

@@ -1,0 +1,106 @@
+---
+title: "Authenticate requests to the DocInject API"
+description: "Pass a Bearer token in the Authorization header to authenticate every request to the DocInject API. Use API keys for server integrations."
+---
+
+All protected DocInject API endpoints require a Bearer token in the `Authorization` request header. DocInject supports two token types: API keys for server-to-server integrations, and session tokens issued by the DocInject web app. For most integrations, you'll use an API key.
+
+## Base URL
+
+All API v1 endpoints are served from:
+
+```
+https://api.docinject.io/api/v1
+```
+
+## Token types
+
+<AccordionGroup>
+  <Accordion title="API keys">
+    API keys are long-lived credentials you create in the DocInject dashboard. They're designed for server-to-server integrations — CI pipelines, internal tooling, webhooks, and scripts that act on your organization's behalf.
+
+    - Created in **Settings → API Keys**
+    - Never expire until you delete them
+    - Scoped to your organization
+    - The raw key value is shown only once at creation — copy it immediately
+
+  </Accordion>
+  <Accordion title="Session tokens">
+    Session tokens are short-lived JWTs issued by the DocInject web application after a user logs in. The web app uses these automatically on every request.
+
+    You don't need session tokens to build integrations. Use an API key instead.
+
+  </Accordion>
+</AccordionGroup>
+
+## How to authenticate
+
+Include your token as a Bearer value in the `Authorization` header on every request:
+
+<CodeGroup>
+
+```bash curl
+curl https://api.docinject.io/api/v1/documents \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+```javascript JavaScript
+const res = await fetch('https://api.docinject.io/api/v1/documents', {
+  headers: {
+    Authorization: `Bearer ${process.env.DOCINJECT_API_KEY}`,
+  },
+});
+```
+
+```python Python
+import os, requests
+
+res = requests.get(
+    'https://api.docinject.io/api/v1/documents',
+    headers={'Authorization': f'Bearer {os.environ["DOCINJECT_API_KEY"]}'},
+)
+```
+
+</CodeGroup>
+
+If the `Authorization` header is missing or malformed, the API returns:
+
+```json
+HTTP 401 Unauthorized
+
+{
+  "detail": "Missing or invalid authorization header"
+}
+```
+
+## Get your API key
+
+<Steps>
+  <Step title="Open Settings">
+    In the DocInject dashboard, navigate to **Settings → API Keys**.
+  </Step>
+  <Step title="Create a new key">
+    Click **Create API key**, give it a descriptive name (for example, `ci-pipeline` or `zapier-integration`), and confirm.
+  </Step>
+  <Step title="Copy immediately">
+    The full key value is displayed only once. Copy it now and store it in a secrets manager or environment variable. DocInject does not store the raw key.
+  </Step>
+</Steps>
+
+<Warning>
+  Keep your API keys secret. Never commit them to source control or expose them in client-side code. If a key is compromised, delete it immediately in **Settings → API Keys** and create a replacement.
+</Warning>
+
+## Public endpoint (no auth required)
+
+One endpoint is publicly accessible without a token — fetching a published document by share token:
+
+```
+GET /api/v1/public/{org_slug}/documents/{token}
+```
+
+This returns the published content of a document that has been shared via a share link. No `Authorization` header is needed.
+
+<Note>
+  Your organization's `org_slug` appears in **Settings → Organization**. You'll need it for org-scoped endpoints throughout the API.
+</Note>

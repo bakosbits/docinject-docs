@@ -1,0 +1,119 @@
+---
+title: "Share published documents via public links"
+description: "Create share tokens that give anyone view access to a published document without a login, and revoke them instantly when access is no longer needed."
+---
+
+Share tokens give anyone with the link read-only access to a published document — no DocInject account required. Use them to share SOPs with external contractors, embed documents in other tools, or distribute guides across your organization without managing permissions.
+
+## How share tokens work
+
+Each share token is a unique string tied to a single document. The public URL follows this format:
+
+```
+https://app.docinject.io/embed/{org_slug}/{token}
+```
+
+Anyone who has this URL can view the document. The link remains active as long as the token exists and the document is published.
+
+<Note>
+  Each document can have only one active share token at a time. Creating a new token replaces the existing one and immediately invalidates the old URL.
+</Note>
+
+## Create a share link
+
+<Steps>
+  <Step title="Open a published document">
+    Navigate to the document. It must have a **Published** status — draft and archived documents cannot have share tokens.
+  </Step>
+  <Step title="Click Embed">
+    Click **Embed** in the document toolbar.
+  </Step>
+  <Step title="Create the link">
+    If no token exists, click **Create embed link**. DocInject creates a token and displays the public URL alongside an iframe snippet.
+  </Step>
+  <Step title="Copy and share the URL">
+    Copy the **Embed URL** and send it to anyone who needs access.
+  </Step>
+</Steps>
+
+You can also create a token via the API:
+
+```bash
+POST /api/v1/documents/{doc_id}/share-token
+```
+
+Returns the token object with `201 Created`.
+
+## Find your share links
+
+All active share links for your organization appear on the **Dashboard** under the **Shareable links** section. Each entry shows the document title and the full URL, with a one-click copy button.
+
+## Revoke a share link
+
+Open the **Embed** modal and click **Remove link**. The token is deleted immediately — anyone who tries to open the old URL will see a "document not available" message.
+
+Via the API:
+
+```bash
+DELETE /api/v1/documents/{doc_id}/share-token
+```
+
+Returns `204 No Content` on success.
+
+<Warning>
+  Revoking a token is instant and permanent. If the link is embedded in another tool or shared externally, it will stop working immediately.
+</Warning>
+
+## Public document API
+
+The public endpoint returns the full document JSON without requiring authentication:
+
+```bash
+GET /api/v1/public/{org_slug}/documents/{token}
+```
+
+### Example response
+
+```json
+{
+  "id": "doc_01abc123",
+  "title": "Employee Onboarding Checklist",
+  "version": "2.1",
+  "department": "People Ops",
+  "status": "published",
+  "nodes": [
+    {
+      "id": "node_01",
+      "node_type": "section",
+      "title": "Before Day One",
+      "content": null,
+      "order": 0,
+      "children": [
+        {
+          "id": "node_02",
+          "node_type": "step",
+          "title": "Send welcome email",
+          "content": { "type": "doc", "content": [] },
+          "order": 0,
+          "children": [
+            {
+              "id": "node_03",
+              "node_type": "sub_step",
+              "title": "Attach equipment order form",
+              "content": null,
+              "order": 0,
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+The `nodes` array is a tree of sections, steps, and sub-steps. Each node has a `node_type` of `"section"`, `"step"`, or `"sub_step"`, a `title`, optional rich-text `content`, an `order` index, and a `children` array for nested nodes.
+
+<Info>
+  If the token is invalid, the document is not published, or the org slug does not match, the endpoint returns `404`.
+</Info>

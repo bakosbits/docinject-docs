@@ -1,0 +1,143 @@
+{
+  "projectType": "saas",
+  "projectName": "DocInject",
+  "projectDescription": "DocInject is a SaaS platform that helps teams create, manage, and deploy SOPs, playbooks, and guides as structured, reusable process context — delivered into the tools and workflows they already use.",
+  "theme": "luma",
+  "primaryColor": "#f1d262",
+  "lightColor": "#7c6c34",
+  "darkColor": "#19160b",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "concepts"
+            ]
+          },
+          {
+            "group": "Creating Documents",
+            "pages": [
+              "documents/overview",
+              "documents/ai-generation",
+              "documents/editor",
+              "documents/publish-archive"
+            ]
+          },
+          {
+            "group": "Sharing & Exporting",
+            "pages": [
+              "sharing/embed",
+              "sharing/export",
+              "sharing/share-links"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/webhooks",
+              "integrations/api-keys",
+              "integrations/automation-assistant",
+              "integrations/inbox"
+            ]
+          },
+          {
+            "group": "Team & Settings",
+            "pages": [
+              "team/members",
+              "team/roles",
+              "team/billing"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api/authentication",
+              "api/errors"
+            ]
+          },
+          {
+            "group": "Documents",
+            "pages": [
+              "api/documents/list",
+              "api/documents/create",
+              "api/documents/publish",
+              "api/documents/export"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "api/webhooks/overview",
+              "api/webhooks/events",
+              "api/webhooks/manage"
+            ]
+          },
+          {
+            "group": "Organization",
+            "pages": [
+              "api/organizations/members",
+              "api/organizations/inbox"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "AI-powered document generation from notes, audio, video, and file uploads",
+    "Structured editor with sections, steps, and sub-steps",
+    "Document versioning and revision history",
+    "Embeddable share links for external access without login",
+    "Word (.docx) export with custom templates",
+    "Webhook events for automation platform integrations (Zapier, Make, n8n, etc.)",
+    "REST API with API key authentication",
+    "Automation Assistant for generating platform-specific automation recipes",
+    "Team management with admin and member roles",
+    "Subscription-based plans with per-seat billing"
+  ],
+  "publicApiSurface": [
+    "GET /api/v1/documents",
+    "POST /api/v1/documents",
+    "GET /api/v1/documents/:doc_id",
+    "PATCH /api/v1/documents/:doc_id",
+    "DELETE /api/v1/documents/:doc_id",
+    "POST /api/v1/documents/:doc_id/publish",
+    "POST /api/v1/documents/:doc_id/revise",
+    "POST /api/v1/documents/:doc_id/archive",
+    "GET /api/v1/documents/:doc_id/export",
+    "GET /api/v1/documents/:doc_id/export/markdown",
+    "POST /api/v1/documents/:doc_id/share-token",
+    "GET /api/v1/documents/:doc_id/share-token",
+    "DELETE /api/v1/documents/:doc_id/share-token",
+    "POST /api/v1/documents/:doc_id/trigger-webhooks",
+    "GET /api/v1/webhooks",
+    "POST /api/v1/webhooks",
+    "PATCH /api/v1/webhooks/:config_id",
+    "DELETE /api/v1/webhooks/:config_id",
+    "POST /api/v1/webhooks/:config_id/test",
+    "GET /api/v1/webhooks/events",
+    "GET /api/v1/organizations/:org_id/members",
+    "POST /api/v1/organizations/:org_id/members/invite",
+    "GET /api/v1/organizations/:org_slug/inbox",
+    "GET /api/v1/organizations/:org_slug/inbox/:document_id",
+    "GET /api/v1/organizations/:org_id/api-keys",
+    "POST /api/v1/organizations/:org_id/api-keys",
+    "DELETE /api/v1/organizations/:org_id/api-keys/:key_id",
+    "POST /api/v1/ai/generate/notes/draft",
+    "POST /api/v1/ai/generate/audio/draft",
+    "POST /api/v1/ai/generate/file/draft",
+    "POST /api/v1/ai/generate/complete",
+    "POST /api/v1/ai/automation/suggest",
+    "GET /api/v1/public/:org_slug/documents/:token"
+  ]
+}

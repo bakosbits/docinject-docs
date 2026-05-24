@@ -1,0 +1,76 @@
+---
+title: "Authenticate API requests with API keys"
+description: "Create long-lived API keys to make authenticated requests to the DocInject REST API from external tools, scripts, and automation platforms."
+---
+
+API keys let external systems read your organization's published documents without requiring a logged-in user session. Pass your key as a `Bearer` token in every API request.
+
+<Note>
+  API keys are scoped to your organization. Any system that holds a key can read the same data as an authenticated member. Treat keys like passwords — don't commit them to source control or share them publicly.
+</Note>
+
+## Create an API key
+
+<Steps>
+  <Step title="Open API Keys settings">
+    Go to **Settings → API Keys**.
+  </Step>
+  <Step title="Enter a name">
+    Type a descriptive name for the key so you can identify it later (for example, `zapier-integration` or `n8n-prod`).
+  </Step>
+  <Step title="Copy the key">
+    Click **Create**. DocInject shows the raw key value exactly once. Copy it to a secure location — you cannot retrieve it again after closing this dialog.
+  </Step>
+</Steps>
+
+## Use an API key
+
+Include the key as a `Bearer` token in the `Authorization` header of every request:
+
+```bash
+curl https://api.docinject.io/api/v1/organizations/your-org-slug/inbox \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+<CodeGroup>
+```javascript Node.js
+const response = await fetch(
+  "https://api.docinject.io/api/v1/organizations/your-org-slug/inbox",
+  {
+    headers: {
+      Authorization: "Bearer YOUR_API_KEY",
+    },
+  }
+);
+const entries = await response.json();
+```
+
+```python Python
+import httpx
+
+response = httpx.get(
+    "https://api.docinject.io/api/v1/organizations/your-org-slug/inbox",
+    headers={"Authorization": "Bearer YOUR_API_KEY"},
+)
+entries = response.json()
+```
+</CodeGroup>
+
+## Delete an API key
+
+Go to **Settings → API Keys**, find the key you want to remove, and click **Delete**. Deletion takes effect immediately — any requests using that key will receive a `401 Unauthorized` response.
+
+<Warning>
+  Deleting a key cannot be undone. If an active integration is using the key, it will stop working immediately. Create a replacement key before deleting the old one.
+</Warning>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="key-round" href="/api/authentication">
+    Full details on authenticating API requests, including token formats and error responses.
+  </Card>
+  <Card title="List documents" icon="file-text" href="/api/documents/list">
+    Retrieve a list of published documents from the API.
+  </Card>
+</CardGroup>

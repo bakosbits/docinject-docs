@@ -1,0 +1,126 @@
+---
+title: "Receive DocInject events with webhooks"
+description: "Configure webhooks to receive HTTP POST requests when DocInject events fire, so external systems stay in sync with document and member activity automatically."
+---
+
+Webhooks let you push DocInject events to any HTTP endpoint the moment they happen. When a document is published, revised, or archived — or when a team member joins or changes role — DocInject sends a signed `POST` request to your configured URL with the full event payload. No polling required.
+
+<Note>
+  Webhook integrations require the **Scale** plan. The Webhooks tab in Settings will show an upgrade prompt if your current plan does not include this feature.
+</Note>
+
+## Available events
+
+| Event type | When it fires |
+|---|---|
+| `document.created` | A new document was created |
+| `document.published` | A document was published for the first time |
+| `document.revised` | A revised version of a document was published |
+| `document.archived` | A document was archived |
+| `document.assigned` | A document was assigned to an editor |
+| `member.invited` | A member was invited to the organization |
+| `member.joined` | A member accepted an invitation and joined |
+| `member.role_changed` | A member's role was changed |
+
+## Create a webhook
+
+Any organization member on the Scale plan can create a webhook from their profile. Admins can view and manage all webhooks in **Settings → Webhooks**.
+
+<Steps>
+  <Step title="Open the Webhooks settings">
+    Go to **Settings → Webhooks**.
+  </Step>
+  <Step title="Add a new webhook">
+    Click **Add webhook** and enter a name and your endpoint URL.
+  </Step>
+  <Step title="Select events">
+    Check the event types you want to subscribe to. You must select at least one.
+  </Step>
+  <Step title="Save and copy your secret">
+    Click **Save**. DocInject generates a signing secret for this webhook and shows it once. Copy it now — you won't be able to retrieve it again.
+  </Step>
+</Steps>
+
+## Webhook payload structure
+
+DocInject sends every event as a JSON `POST` request. Here is an example `document.published` payload:
+
+```json
+{
+  "event_type": "document.published",
+  "organization_id": "296de55b-2235-49ec-b3a4-f8174c9de488",
+  "org_slug": "acme",
+  "occurred_at": "2026-04-27T14:09:31.713645+00:00",
+  "data": {
+    "document_id": "72a7b832-e878-4ebb-9d5f-e73b3d27b43c",
+    "title": "Onboarding Checklist",
+    "version": "1.0",
+    "department": "HR",
+    "published_at": "2026-04-27T14:09:30.754254+00:00",
+    "published_by_email": "user@example.com",
+    "sections": [
+      {
+        "title": "Purpose",
+        "content": "A brief description of why this process exists.",
+        "images": [],
+        "steps": []
+      }
+    ]
+  }
+}
+```
+
+For `document.revised` events, the `data` object also includes a `previous_version_id` field containing the document ID of the prior version.
+
+## Verify webhook signatures
+
+Every request DocInject sends includes an `X-DocInject-Signature` header with the format `sha256=<hex_digest>`. To verify a request is genuinely from DocInject, compute HMAC-SHA256 of the raw request body using your webhook's secret and compare it to the digest in the header.
+
+```javascript
+import { createHmac, timingSafeEqual } from "crypto";
+
+function verifySignature(rawBody, secret, signatureHeader) {
+  const expected = "sha256=" + createHmac("sha256", secret)
+    .update(rawBody)
+    .digest("hex");
+  const actual = Buffer.from(signatureHeader);
+  const expectedBuf = Buffer.from(expected);
+  if (actual.length !== expectedBuf.length) return false;
+  return timingSafeEqual(actual, expectedBuf);
+}
+```
+
+<Warning>
+  Always verify the signature before processing a webhook payload. Reject requests where the signature does not match.
+</Warning>
+
+## Test a webhook
+
+Click the **Test** button next to any webhook to send a test payload immediately. The test payload has the event type `webhook.test` and does not affect your documents or publish count. The button shows the HTTP status code DocInject received from your endpoint.
+
+## Manually trigger webhooks
+
+From any published document, you can re-fire a webhook event without re-publishing. This is useful when you add a new webhook and want to backfill your integration without making changes to your documents.
+
+Open the document, open the options menu, and select **Trigger webhooks**. Choose one of the triggerable event types:
+
+- `document.published` — fires the same payload as a first publish
+- `document.revised` — fires the same payload as a revision, including `previous_version_id`
+- `document.archived` — fires the same payload as archiving
+
+Triggering a webhook does not change the document or count against your publish limit.
+
+## Event log
+
+Go to **Settings → Webhooks → Recent Events** to see the last delivery attempts for your organization. Each row shows:
+
+- The event type
+- Delivery status (`delivered`, `failed`, or `pending`)
+- Number of attempts made
+- The date of the attempt
+
+DocInject retries failed deliveries up to 3 times with exponential backoff before marking an event as permanently failed.
+
+<Tip>
+  If an event shows as failed, check that your endpoint returns a `2xx` HTTP status code and responds within 10 seconds. Use the **Test** button to verify connectivity after fixing your endpoint.
+</Tip>

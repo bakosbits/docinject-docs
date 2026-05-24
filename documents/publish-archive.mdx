@@ -1,0 +1,78 @@
+---
+title: "Publish, revise, and archive documents"
+description: "Move documents from draft to published to archived, create revisions of published documents, and manually trigger webhook events to sync external systems."
+---
+
+Once you finish editing a document, you publish it to make it the active version. From there, you can revise it to produce a new draft linked to the original, or archive it when it is no longer needed. Each of these actions fires a webhook event that you can use to keep external systems in sync.
+
+## Publishing
+
+Publishing moves a document from **Draft** to **Published** status. Published documents are read-only — they cannot be edited directly.
+
+<Steps>
+  <Step title="Open the draft in the editor">
+    Navigate to the document and open it in the editor. The status badge in the top bar shows **Draft**.
+  </Step>
+  <Step title="Click Publish">
+    Click the **Publish** button in the top bar. The document status changes to **Published** and you are redirected to the published view.
+  </Step>
+</Steps>
+
+Publishing fires the `document.published` webhook event, which delivers the full document content to any configured webhook endpoints.
+
+<Note>
+  Trial plans have a publish event cap. If you reach the limit, the Publish button becomes disabled. Upgrade your plan to continue publishing.
+</Note>
+
+## Revising
+
+Revising creates a new draft linked to an existing published document. Use this when you need to update content without losing the record of the previous version.
+
+<Steps>
+  <Step title="Open the published document">
+    Navigate to the published document. The **Revise** button appears in the top bar.
+  </Step>
+  <Step title="Click Revise">
+    Click **Revise**. DocInject creates a new draft document linked to the published version and takes you to a metadata screen.
+  </Step>
+  <Step title="Set the version for the revision">
+    Update the title, version, or department for the new draft. The version must be different from the published document's version. Click **Start Editing** to open the editor.
+  </Step>
+  <Step title="Edit and publish the revision">
+    Make your changes in the editor, then click **Publish**. The revision is published and the previous version is moved to revision history.
+  </Step>
+</Steps>
+
+Publishing a revision fires the `document.revised` webhook event instead of `document.published`. The `document.revised` payload includes a `previous_version_id` field identifying the document it supersedes.
+
+You can view the full history of previous versions from the document's **Revision history** page.
+
+## Archiving
+
+Archiving moves a published document to **Archived** status. Archived documents are removed from the main documents list and moved to the **Archives** section.
+
+To archive a document, open the published document and click **Archive** in the top bar. Confirm the prompt to proceed.
+
+Archiving fires the `document.archived` webhook event.
+
+<Info>
+  Archived documents are not deleted — you can still view their content from the Archives section.
+</Info>
+
+## Triggering webhooks manually
+
+You can re-fire a webhook event for a published document without re-publishing or changing its status. This is useful when you need to resync an external system that missed a delivery, or when you are testing a new webhook endpoint.
+
+From the document list, open the action menu for a published document and select **Trigger webhooks**. Choose one of the three available events:
+
+| Event | Payload |
+|-------|---------|
+| `document.published` | Same payload as publishing the document |
+| `document.revised` | Same payload as publishing a revision; includes `previous_version_id` |
+| `document.archived` | Same payload as archiving the document |
+
+Click **Trigger** to dispatch the event. This does not change the document's status or affect your publish event count.
+
+<Warning>
+  Triggering webhooks manually fires real events to all configured endpoints. Make sure your receiving system can handle duplicate deliveries before triggering.
+</Warning>
