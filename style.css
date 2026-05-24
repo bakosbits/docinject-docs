@@ -95,6 +95,7 @@ body:has([data-product-guide-index]) #sidebar a.nav-anchor[href='/'] svg {
 .dark [data-product-guide-index] a:not(.product-guide-feature-card) {
   background-color: #09090b !important;
 }
+
 .product-guide-feature-card {
   grid-column: 1 / -1;
   display: flex !important;
@@ -130,6 +131,7 @@ body:has([data-product-guide-index]) #sidebar a.nav-anchor[href='/'] svg {
   font-size: 1.2em;
   font-weight: 500;
 }
+
 .product-guide-feature-card :is(h2, h3, p, span).product-guide-feature-card-description {
   font-size: 1.05em;
   font-weight: 400;
@@ -137,6 +139,20 @@ body:has([data-product-guide-index]) #sidebar a.nav-anchor[href='/'] svg {
   .dark & {
     color: rgb(var(--gray-50) / 50%) !important;
   }
+}
+
+/* Force the internal Mintlify flex box to fill the entire 260px height */
+.product-guide-feature-card > div {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Push the description container down to the very bottom */
+.product-guide-feature-card-description {
+  margin-top: auto !important;
+  padding-top: 110px; /* Creates a guaranteed empty window in the middle for your banner graphic */
+  display: block !important;
 }
 
 img.nav-logo {
