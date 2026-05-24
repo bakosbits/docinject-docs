@@ -113,38 +113,41 @@ body:has([data-product-guide-index]) #sidebar a.nav-anchor[href='/'] svg {
   }
 }
 
-/* Ensure the title text stands out cleanly and has a bottom margin */
-.product-guide-feature-card-title {
-  color: #111827 !important; /* Elegant dark charcoal/black for light mode */
-  font-size: 1.4em;
-  font-weight: 600;
-  display: block;
-  margin-bottom: 20px !important; /* Hard separation to push layout elements away */
 
-  .dark & {
-    color: #ffffff !important; /* Crisp white for dark mode */
-  }
-}
-
-/* Ensure the inner layout blocks don't force elements to overlap */
+/* 1. Target the internal wrapper container that Mintlify sets up inside the card */
 .product-guide-feature-card > div {
   height: 100% !important;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: space-between !important;
-  padding-top: 15px !important; /* Moves your icon and title down slightly from the very edge */
+  justify-content: flex-end !important; /* Forces EVERYTHING inside to anchor to the bottom */
+  align-items: flex-start !important;
+  padding: 24px !important; /* Gives clean padding on the edges like the screenshot */
 }
 
-/* Safely anchors the footer description at the bottom */
-.product-guide-feature-card-description {
-  margin-top: auto !important;
-  padding-top: 135px; /* Creates a large structural window for the diagram */
+/* 2. Style the Title */
+.product-guide-feature-card-title {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  color: #ffffff !important; /* Force to crisp white to stand out over the graphic */
+  margin-top: auto !important; /* Creates the big vertical gap below the icon, pushing text down */
+  margin-bottom: 4px !important; /* Tightly binds it to the description line below it */
   display: block !important;
-  color: #4b5563 !important; /* Clean gray reading text */
+}
 
-  .dark & {
-    color: rgb(var(--gray-50) / 60%) !important;
-  }
+/* 3. Style the Description */
+.product-guide-feature-card-description {
+  font-size: 1.05rem !important;
+  font-weight: 400 !important;
+  color: rgba(255, 255, 255, 0.8) !important; /* Soft transparent white like the screenshot */
+  display: block !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important; /* Strip any old padding hacks away */
+}
+
+/* 4. Rocket Icon Color adjustment */
+.product-guide-feature-card :is(svg, [class*='icon']) {
+  color: #ffffff !important;
+  fill: #ffffff !important;
 }
 
 img.nav-logo {
