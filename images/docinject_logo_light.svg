@@ -1,7 +1,7 @@
 <svg 
     xmlns="http://www.w3.org/2000/svg" 
-    width="550" 
-    height="150" 
+    width="367" 
+    height="100" 
     viewBox="0 0 550 150" 
     style="shape-rendering: geometricprecision; text-rendering: geometricprecision; image-rendering: crisp-edges; fill-rule: evenodd; clip-rule: evenodd;"
 >
@@ -44,6 +44,6 @@
     />
 
     <text font-family="Inter, sans-serif" font-weight="700" font-size="68" dominant-baseline="middle" y="83" style="stroke: none; opacity: 1; text-anchor: start;">
-        <tspan x="160" fill="#3f3f46">Doc</tspan><tspan fill="#ea580c">Inject</tspan>
+        <tspan x="160" fill="#3f3f46">Doc</tspan><tspan dx="0" fill="#ea580c">Inject</tspan>
     </text>
 </svg>
