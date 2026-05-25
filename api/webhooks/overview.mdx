@@ -3,7 +3,7 @@ title: "Webhooks API overview for DocInject"
 description: "Register endpoints, verify payload signatures, and understand how DocInject delivers document and member events to your server in real time."
 ---
 
-Webhooks let your server receive automatic notifications when activity occurs in your DocInject organization. When a subscribed event fires — a document is published, a member joins, a role changes — DocInject sends an HTTP POST request to your registered URL with a signed JSON payload.
+Webhooks let your server receive automatic notifications when activity occurs in your DocInject organization. When a subscribed event fires, such as a document being published, a member joining, or a role changing, DocInject sends an HTTP POST request to your registered URL with a signed JSON payload.
 
 <Note>
   Webhook integrations require the **Scale plan**. Attempting to register a webhook on a lower-tier plan returns `403`.
@@ -47,7 +47,7 @@ Every webhook request shares the same top-level structure regardless of event ty
 
 DocInject signs every request with HMAC-SHA256. The signature is included in the `X-DocInject-Signature` header as `sha256=<hex-digest>`.
 
-Your webhook secret is returned **once** when you register a webhook (`POST /webhooks`). Store it securely — it is not retrievable afterwards.
+Your webhook secret is returned **once** when you register a webhook (`POST /webhooks`). Store it securely. It is not retrievable afterwards.
 
 To verify a request:
 

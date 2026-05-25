@@ -3,17 +3,17 @@ title: "Key concepts in DocInject"
 description: "Learn the core terminology used throughout DocInject: documents, statuses, node structure, organizations, webhooks, share tokens, and the organization inbox."
 ---
 
-This page explains the core terms and mental models you'll encounter throughout DocInject. Read this before diving into the rest of the documentation — it will make everything else easier to follow.
+This page explains the core terms and mental models you'll encounter throughout DocInject. Read this before diving into the rest of the documentation. It will make everything else easier to follow.
 
 <AccordionGroup>
 
 <Accordion title="Document">
   A document is the top-level container for a single SOP, playbook, or guide. Every document has:
 
-  - **Title** — The name displayed in the dashboard and payloads.
-  - **Version** — A free-form string (e.g., `1.0`, `v2`, `2024-Q3`) that you manage manually. When you create a revision, the new draft must have a different version from the published original.
-  - **Department** — An optional label that scopes the document to a team or function (e.g., `Marketing`, `Ops`). Departments are defined per organization in Settings.
-  - **Status** — The current state in the document lifecycle (see below).
+  - **Title.** The name displayed in the dashboard and payloads.
+  - **Version.** A free-form string (e.g., `1.0`, `v2`, `2024-Q3`) that you manage manually. When you create a revision, the new draft must have a different version from the published original.
+  - **Department.** An optional label that scopes the document to a team or function (e.g., `Marketing`, `Ops`). Departments are defined per organization in Settings.
+  - **Status.** The current state in the document lifecycle (see below).
 
   Documents are owned by the member who created them and can have an assigned co-author (editor).
 </Accordion>
@@ -36,11 +36,11 @@ This page explains the core terms and mental models you'll encounter throughout 
 </Accordion>
 
 <Accordion title="Node structure">
-  The content inside a document is made of **nodes** — the individual building blocks organized in a tree. DocInject supports three levels:
+  The content inside a document is made of **nodes**, the individual building blocks organized in a tree. DocInject supports three levels:
 
-  1. **Section** — Top-level grouping. Every document contains one or more sections.
-  2. **Step** — A child of a section. Describes a specific action or piece of information within that section.
-  3. **Sub-step** — A child of a step. Used for more granular detail or nested instructions.
+  1. **Section.** Top-level grouping. Every document contains one or more sections.
+  2. **Step.** A child of a section. Describes a specific action or piece of information within that section.
+  3. **Sub-step.** A child of a step. Used for more granular detail or nested instructions.
 
   The maximum depth is three levels: section → step → sub-step. This constraint keeps documents composable and ensures the structured payload can be routed reliably into downstream tools.
 
@@ -54,7 +54,7 @@ This page explains the core terms and mental models you'll encounter throughout 
 
   | Role | Permissions |
   |---|---|
-  | **Admin** | Full access — manage members, departments, webhooks, API keys, billing, and all documents. |
+  | **Admin** | Full access. Manage members, departments, webhooks, API keys, billing, and all documents. |
   | **Member** | Can create and edit documents they own or are assigned to as an editor. |
 
   Admins can invite members via Settings. Invited users receive an email with a link to set up their account and join the organization.
@@ -85,7 +85,7 @@ This page explains the core terms and mental models you'll encounter throughout 
   app.docinject.com/embed/{org_slug}/{token}
   ```
 
-  Anyone with the link can view the published document — no DocInject account required. Share tokens are per-document and can be revoked at any time. Once revoked, the URL stops working.
+  Anyone with the link can view the published document. No DocInject account required. Share tokens are per-document and can be revoked at any time. Once revoked, the URL stops working.
 
   You can create, retrieve, and revoke share tokens via the API or from within the document editor.
 </Accordion>
@@ -104,7 +104,7 @@ This page explains the core terms and mental models you'll encounter throughout 
   Upload templates under your profile settings. You can maintain multiple templates (e.g., one per department or brand).
 
   <Info>
-    Markdown export does not require a template — it is always available and does not depend on any uploaded file.
+    Markdown export does not require a template. It is always available and does not depend on any uploaded file.
   </Info>
 </Accordion>
 

@@ -32,7 +32,7 @@ The `detail` value is a human-readable string. It changes with each error type, 
 | `500 Internal Server Error` | An unexpected server-side error occurred. |
 
 <Note>
-  **403 vs 404:** DocInject returns `404` — not `403` — for resources that exist but your token doesn't have access to. This prevents your integration from inferring whether a resource exists at all, which avoids leaking information across organization boundaries.
+  **403 vs 404:** DocInject returns `404`, not `403`, for resources that exist but your token doesn't have access to. This prevents your integration from inferring whether a resource exists at all, which avoids leaking information across organization boundaries.
 </Note>
 
 ## Handling errors in your integration
@@ -70,7 +70,7 @@ if not res.ok:
 ## Common error scenarios
 
 <AccordionGroup>
-  <Accordion title="401 — missing or invalid token">
+  <Accordion title="401, missing or invalid token">
     You'll receive a `401` when:
 
     - The `Authorization` header is absent
@@ -80,19 +80,19 @@ if not res.ok:
     **Fix:** verify your API key is correct and that you're setting the `Authorization` header on the request.
   </Accordion>
 
-  <Accordion title="403 — insufficient permissions">
+  <Accordion title="403, insufficient permissions">
     You'll receive a `403` when your token is valid but the action requires a role you don't have. For example, only organization admins can invite members, change member roles, or view documents owned by other members.
 
     **Fix:** check that the API key belongs to a user with the required role, or contact your organization admin.
   </Accordion>
 
-  <Accordion title="400 — bad request">
-    You'll receive a `400` when the request body is malformed or a required field is missing. The `detail` field will describe what's wrong — for example, `"count must be 1–100"`.
+  <Accordion title="400, bad request">
+    You'll receive a `400` when the request body is malformed or a required field is missing. The `detail` field will describe what's wrong, for example, `"count must be 1–100"`.
 
     **Fix:** validate your request payload against the endpoint's required fields before sending.
   </Accordion>
 
-  <Accordion title="500 — internal server error">
+  <Accordion title="500, internal server error">
     A `500` indicates an unexpected error on DocInject's side. These are rare and usually transient.
 
     **Fix:** retry the request with exponential backoff. If the error persists, contact DocInject support with the request details and timestamp.

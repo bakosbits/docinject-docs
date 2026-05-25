@@ -3,16 +3,16 @@ title: "Documents in DocInject"
 description: "Learn what documents are in DocInject, how draft, published, and archived statuses work, and how the revision flow keeps your history intact."
 ---
 
-Documents are the core artifact in DocInject. Each document represents a single SOP, playbook, or guide — structured as a hierarchy of sections, steps, and sub-steps — along with a title, version number, and optional department assignment. You create, edit, and publish documents to make them available as process context for your team and connected systems.
+Documents are the core artifact in DocInject. Each document represents a single SOP, playbook, or guide, structured as a hierarchy of sections, steps, and sub-steps, along with a title, version number, and optional department assignment. You create, edit, and publish documents to make them available as process context for your team and connected systems.
 
 ## What a document contains
 
 Every document has the following fields:
 
-- **Title** — the name of the SOP or guide.
-- **Version** — a free-form version string (e.g. `1.0`, `v2`, `2024-Q1`). Version is required when generating documents with AI.
-- **Department** — an optional grouping field. If your organization has departments configured, department becomes required.
-- **Node tree** — the content of the document, structured as a three-level hierarchy: sections contain steps, and steps can contain sub-steps.
+- **Title.** The name of the SOP or guide.
+- **Version.** A free-form version string (e.g. `1.0`, `v2`, `2024-Q1`). Version is required when generating documents with AI.
+- **Department.** An optional grouping field. If your organization has departments configured, department becomes required.
+- **Node tree.** The content of the document, structured as a three-level hierarchy: sections contain steps, and steps can contain sub-steps.
 
 ## Document statuses
 
@@ -32,7 +32,7 @@ Every document moves through a defined lifecycle with three possible statuses.
 
 ## Revision flow
 
-When you need to update a published document, you create a **revision** rather than editing it directly. Revising a published document creates a new draft that is linked to the original. The new draft gets its own version number — it cannot share the version of the published document it came from.
+When you need to update a published document, you create a **revision** rather than editing it directly. Revising a published document creates a new draft that is linked to the original. The new draft gets its own version number. It cannot share the version of the published document it came from.
 
 When you publish the revision, DocInject fires the `document.revised` webhook event (instead of `document.published`) and the previous version is moved to the document's revision history, where it remains readable.
 

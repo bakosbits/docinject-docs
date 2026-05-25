@@ -6,7 +6,7 @@ description: "Create long-lived API keys to make authenticated requests to the D
 API keys let external systems read your organization's published documents without requiring a logged-in user session. Pass your key as a `Bearer` token in every API request.
 
 <Note>
-  API keys are scoped to your organization. Any system that holds a key can read the same data as an authenticated member. Treat keys like passwords — don't commit them to source control or share them publicly.
+  API keys are scoped to your organization. Any system that holds a key can read the same data as an authenticated member. Treat keys like passwords. Don't commit them to source control or share them publicly.
 </Note>
 
 ## Create an API key
@@ -19,7 +19,7 @@ API keys let external systems read your organization's published documents witho
     Type a descriptive name for the key so you can identify it later (for example, `zapier-integration` or `n8n-prod`).
   </Step>
   <Step title="Copy the key">
-    Click **Create**. DocInject shows the raw key value exactly once. Copy it to a secure location — you cannot retrieve it again after closing this dialog.
+    Click **Create**. DocInject shows the raw key value exactly once. Copy it to a secure location. You cannot retrieve it again after closing this dialog.
   </Step>
 </Steps>
 
@@ -58,7 +58,7 @@ entries = response.json()
 
 ## Delete an API key
 
-Go to **Settings → API Keys**, find the key you want to remove, and click **Delete**. Deletion takes effect immediately — any requests using that key will receive a `401 Unauthorized` response.
+Go to **Settings → API Keys**, find the key you want to remove, and click **Delete**. Deletion takes effect immediately. Any requests using that key will receive a `401 Unauthorized` response.
 
 <Warning>
   Deleting a key cannot be undone. If an active integration is using the key, it will stop working immediately. Create a replacement key before deleting the old one.

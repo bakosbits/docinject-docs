@@ -1,6 +1,6 @@
 ---
 title: "Read document updates from the organization inbox"
-description: "Poll the organization inbox API to retrieve the latest published document payloads without configuring webhooks — authenticated with an API key."
+description: "Poll the organization inbox API to retrieve the latest published document payloads without configuring webhooks, authenticated with an API key."
 ---
 
 The organization inbox is a per-organization feed of document publish and revision events. Each time a document is published or revised, DocInject writes the full event payload to the inbox. Polling the inbox is the simplest way to keep an external system up to date with your latest SOPs without setting up webhooks.
@@ -96,11 +96,11 @@ curl https://api.docinject.com/{org_slug}/inbox/72a7b832-e878-4ebb-9d5f-e73b3d27
 |  | Inbox (polling) | Webhooks |
 | --- | --- | --- |
 | **Plan required** | Any plan | Scale |
-| **Delivery model** | Pull — you fetch on a schedule | Push — DocInject sends to your URL |
-| **Setup complexity** | Low — one API call | Medium — requires a public endpoint |
+| **Delivery model** | Pull. You fetch on a schedule | Push. DocInject sends to your URL |
+| **Setup complexity** | Low, one API call | Medium, requires a public endpoint |
 | **Latency** | Depends on polling frequency | Near real-time |
 | **Best for** | Simple integrations, scheduled syncs | Event-driven automations, real-time triggers |
 
 <Tip>
-  Use the [Automation Assistant](/integrations/automation-assistant) to generate a scheduled polling recipe for your chosen platform — it can reference the inbox endpoints directly and format the output for tools like Make, Zapier, or n8n.
+  Use the [Automation Assistant](/integrations/automation-assistant) to generate a scheduled polling recipe for your chosen platform. It can reference the inbox endpoints directly and format the output for tools like Make, Zapier, or n8n.
 </Tip>
