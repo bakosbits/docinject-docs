@@ -81,19 +81,4 @@ This guide walks you from a brand-new account to a published, deployed document.
 
     Authenticate with an API key and call the documents API to retrieve, list, or export documents programmatically. See the [API reference](/api/authentication) to get started.
   </Step>
-  <Step title="Share or deploy">
-    A published document is ready to share or deploy. Choose the option that fits your workflow:
-
-    **Share via embed link**
-
-    Open the document and generate a share token. This creates a public URL at `app.docinject.com/embed/{org_slug}/{token}` that anyone can view without a DocInject account. Copy the URL from the **Shareable links** section of your dashboard.
-
-    **Connect a webhook**
-
-    Go to **Settings → Webhooks** and register an endpoint URL. DocInject will POST a structured JSON payload to that URL whenever a document event fires. Use this to push content to Slack, create tasks in Asana or Linear, update records in HubSpot, or trigger any automation platform.
-
-    **Pull via the REST API**
-
-    Authenticate with an API key and call the documents API to retrieve documents programmatically. See the [API reference](/api/authentication) to get started.
-  </Step>
 </Steps>
