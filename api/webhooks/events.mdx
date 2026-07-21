@@ -49,6 +49,9 @@ Each event DocInject dispatches includes a standard envelope with `event_type`, 
     <ResponseField name="title" type="string">
       Document title.
     </ResponseField>
+    <ResponseField name="doc_type" type="string">
+      The type of document: `"sop"`, `"guide"`, or `"playbook"`.
+    </ResponseField>
     <ResponseField name="version" type="string">
       Version label at the time of publication (for example, `"1.0"` or `"v2"`).
     </ResponseField>
@@ -94,6 +97,7 @@ Each event DocInject dispatches includes a standard envelope with `event_type`, 
       "data": {
         "document_id": "doc-uuid-0001",
         "title": "Onboarding Checklist",
+        "doc_type": "sop",
         "version": "1.0",
         "department": "People Ops",
         "published_at": "2024-03-10T11:00:00Z",
@@ -144,6 +148,7 @@ Each event DocInject dispatches includes a standard envelope with `event_type`, 
       "data": {
         "document_id": "doc-uuid-0001",
         "title": "Onboarding Checklist",
+        "doc_type": "sop",
         "version": "2.0",
         "department": "People Ops",
         "published_at": "2024-06-01T14:22:00Z",

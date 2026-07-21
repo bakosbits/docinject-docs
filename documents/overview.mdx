@@ -9,7 +9,8 @@ Documents are the core artifact in DocInject. Each document represents a single 
 
 Every document has the following fields:
 
-- **Title.** The name of the SOP or guide.
+- **Title.** The name of the document.
+- **Type.** Whether the document is an `sop`, `guide`, or `playbook`. You select the type when creating the document. It shapes the sections and structure the AI produces, and is included in API responses and webhook payloads.
 - **Version.** A free-form version string (e.g. `1.0`, `v2`, `2024-Q1`). Version is required when generating documents with AI.
 - **Department.** An optional grouping field. If your organization has departments configured, department becomes required.
 - **Node tree.** The content of the document, structured as a three-level hierarchy: sections contain steps, and steps can contain sub-steps.
