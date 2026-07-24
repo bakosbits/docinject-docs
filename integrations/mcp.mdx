@@ -5,51 +5,42 @@ description: "Connect Claude, Cursor, and other AI assistants to your DocInject 
 
 DocInject exposes your SOPs, playbooks, and guides as an MCP server so AI assistants can read, search, and summarize your documents in context. Once connected, you can ask Claude or Cursor questions like "what is our onboarding process?" and get answers grounded in your actual documentation.
 
-## Prerequisites
-
-You need a DocInject **API key** to authenticate the MCP server. API keys are generated in **Settings → API Keys**. See [API keys](/integrations/api-keys) for instructions.
-
 ## Connect to Claude Desktop
+
+Claude Desktop connects via OAuth so your login credentials stay secure — no API keys to manage or paste into URLs.
 
 <Steps>
   <Step title="Open Claude Desktop settings">
-    In Claude Desktop, go to **Settings → Connectors** (or **Settings → Developer** on older versions).
+    In Claude Desktop, go to **Settings → Connectors**.
   </Step>
   <Step title="Add a new connector">
-    Click **Add connector** and choose the **Remote** option.
-  </Step>
-  <Step title="Enter the server URL">
-    Paste the following URL, replacing `<your-api-key>` with your DocInject API key:
+    Click **Add connector**, choose **Remote**, and enter the server URL:
 
     ```
-    https://mcp.docinject.com/mcp?key=<your-api-key>
+    https://mcp.docinject.com
     ```
   </Step>
-  <Step title="Save and confirm">
-    Save the connector. Claude Desktop will connect to the server and confirm the available tools.
+  <Step title="Enter the OAuth credentials">
+    When prompted for OAuth credentials, enter:
+
+    - **Client ID:** `docinject-mcp`
+    - **Client Secret:** `<see your DocInject admin for this value>`
+  </Step>
+  <Step title="Sign in and approve">
+    Claude Desktop will open a browser window. Sign in with your DocInject account and click **Allow access** to complete the connection.
   </Step>
 </Steps>
 
-Alternatively, you can add it directly to your Claude Desktop config file (`claude_desktop_config.json`):
-
-```json
-{
-  "mcpServers": {
-    "docinject": {
-      "url": "https://mcp.docinject.com/mcp?key=<your-api-key>"
-    }
-  }
-}
-```
+The OAuth flow scopes the connection to your DocInject account and organization. Claude Desktop stores the token locally and refreshes it automatically — you only need to authorize once.
 
 ## Connect to Cursor or other MCP clients
 
-Most MCP-compatible clients accept a server URL and an authorization header. Use:
+For clients that support custom authorization headers, use your DocInject API key directly. API keys are generated in **Settings → API Keys**. See [API keys](/integrations/api-keys) for instructions.
 
 - **URL:** `https://mcp.docinject.com/mcp`
 - **Authorization header:** `Bearer <your-api-key>`
 
-Or pass the key as a query parameter if your client does not support custom headers:
+Or if your client accepts query parameters:
 
 ```
 https://mcp.docinject.com/mcp?key=<your-api-key>
@@ -62,11 +53,23 @@ Once connected, your AI assistant has access to the following tools:
 | Tool | What it does |
 |---|---|
 | `list_documents` | Lists published SOPs and guides in your organization |
-| `search_documents` | Searches document titles by keyword |
+| `search_documents` | Searches published document titles by keyword |
 | `get_document` | Retrieves a document's full structured content |
 | `get_document_markdown` | Returns a document formatted as Markdown, ideal for summarization |
+| `get_section` | Returns a single section from a document by title, including its steps and sub-steps |
 
 The AI chooses which tools to call based on your question. You do not need to invoke them manually.
+
+### Injecting sections into other applications
+
+`get_section` is designed for use cases where you want to pull a specific part of an SOP into another tool — a support ticket, a Notion page, a HubSpot template, or a custom prompt — without bringing in the entire document.
+
+You can ask your AI assistant things like:
+
+- "Get the 'Equipment Setup' section from our onboarding SOP and add it to this email draft"
+- "Pull the incident escalation steps from DocInject and insert them into this runbook"
+
+The returned section includes a `From: Document Title` attribution so the source is always clear. Because it reads live from DocInject, the content reflects the current published version of your document every time it is called.
 
 ## Example prompts
 
@@ -79,10 +82,12 @@ Once connected, you can ask your AI assistant things like:
 
 ## Security
 
-Your API key is scoped to your organization and only grants access to your organization's documents. It does not allow creating, editing, or deleting documents — the MCP server is read-only.
+The MCP server is **read-only**. Connected AI assistants can read and search your published documents but cannot create, edit, archive, or delete anything.
 
-Treat your API key like a password. If a key is compromised, revoke it immediately from **Settings → API Keys** and generate a new one.
+**OAuth connections** (Claude Desktop) are scoped to your individual user account and organization. You can revoke access at any time by disconnecting the connector in Claude Desktop.
+
+**API key connections** are scoped to your organization. If a key is compromised, revoke it immediately from **Settings → API Keys** and generate a new one.
 
 <Warning>
-  Do not share your API key or commit it to source control. Anyone with the key can read your organization's documents.
+  Do not share API keys or commit them to source control. Anyone with a valid key can read your organization's published documents.
 </Warning>
