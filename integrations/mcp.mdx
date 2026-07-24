@@ -1,0 +1,88 @@
+---
+title: "Use DocInject with AI assistants (MCP)"
+description: "Connect Claude, Cursor, and other AI assistants to your DocInject document library using the Model Context Protocol (MCP)."
+---
+
+DocInject exposes your SOPs, playbooks, and guides as an MCP server so AI assistants can read, search, and summarize your documents in context. Once connected, you can ask Claude or Cursor questions like "what is our onboarding process?" and get answers grounded in your actual documentation.
+
+## Prerequisites
+
+You need a DocInject **API key** to authenticate the MCP server. API keys are generated in **Settings → API Keys**. See [API keys](/integrations/api-keys) for instructions.
+
+## Connect to Claude Desktop
+
+<Steps>
+  <Step title="Open Claude Desktop settings">
+    In Claude Desktop, go to **Settings → Connectors** (or **Settings → Developer** on older versions).
+  </Step>
+  <Step title="Add a new connector">
+    Click **Add connector** and choose the **Remote** option.
+  </Step>
+  <Step title="Enter the server URL">
+    Paste the following URL, replacing `<your-api-key>` with your DocInject API key:
+
+    ```
+    https://mcp.docinject.com/mcp?key=<your-api-key>
+    ```
+  </Step>
+  <Step title="Save and confirm">
+    Save the connector. Claude Desktop will connect to the server and confirm the available tools.
+  </Step>
+</Steps>
+
+Alternatively, you can add it directly to your Claude Desktop config file (`claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "docinject": {
+      "url": "https://mcp.docinject.com/mcp?key=<your-api-key>"
+    }
+  }
+}
+```
+
+## Connect to Cursor or other MCP clients
+
+Most MCP-compatible clients accept a server URL and an authorization header. Use:
+
+- **URL:** `https://mcp.docinject.com/mcp`
+- **Authorization header:** `Bearer <your-api-key>`
+
+Or pass the key as a query parameter if your client does not support custom headers:
+
+```
+https://mcp.docinject.com/mcp?key=<your-api-key>
+```
+
+## Available tools
+
+Once connected, your AI assistant has access to the following tools:
+
+| Tool | What it does |
+|---|---|
+| `list_documents` | Lists published SOPs and guides in your organization |
+| `search_documents` | Searches document titles by keyword |
+| `get_document` | Retrieves a document's full structured content |
+| `get_document_markdown` | Returns a document formatted as Markdown, ideal for summarization |
+
+The AI chooses which tools to call based on your question. You do not need to invoke them manually.
+
+## Example prompts
+
+Once connected, you can ask your AI assistant things like:
+
+- "Summarize our employee onboarding SOP"
+- "Find any documents related to security"
+- "What are the steps in our incident response playbook?"
+- "List all published guides in DocInject"
+
+## Security
+
+Your API key is scoped to your organization and only grants access to your organization's documents. It does not allow creating, editing, or deleting documents — the MCP server is read-only.
+
+Treat your API key like a password. If a key is compromised, revoke it immediately from **Settings → API Keys** and generate a new one.
+
+<Warning>
+  Do not share your API key or commit it to source control. Anyone with the key can read your organization's documents.
+</Warning>

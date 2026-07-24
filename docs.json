@@ -75,6 +75,7 @@
             "pages": [
               "integrations/webhooks",
               "integrations/api-keys",
+              "integrations/mcp",
               "integrations/automation-assistant",
               "integrations/inbox"
             ]
