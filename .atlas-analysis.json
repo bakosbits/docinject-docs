@@ -1,7 +1,7 @@
 {
   "projectType": "saas",
   "projectName": "DocInject",
-  "projectDescription": "DocInject is a SaaS platform that helps teams create, manage, and deploy SOPs, playbooks, and guides as structured, reusable process context — delivered into the tools and workflows they already use.",
+  "projectDescription": "DocInject is a SaaS platform that helps teams create, manage, and deploy SOPs, playbooks, guides, and hanbooks as structured, reusable process context — delivered into the tools and workflows they already use.",
   "theme": "luma",
   "primaryColor": "#f1d262",
   "lightColor": "#7c6c34",
