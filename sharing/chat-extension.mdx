@@ -1,0 +1,78 @@
+---
+title: "Chat extension"
+description: "Give your workforce instant, no-account access to ask questions about your published documents through a mobile-friendly AI chat interface."
+---
+
+The chat extension lets your workforce ask questions about your organization's SOPs, playbooks, and guides without a DocInject account. You generate a shareable link or QR code from **Settings → Chat Extension**, post it on a job site or share it via message, and workers open it in any mobile browser to start chatting.
+
+Answers are powered by AI and grounded in your published documents — workers get accurate, document-sourced responses rather than general AI guesses.
+
+## Who it's for
+
+The chat extension is designed for the people who *use* your documentation rather than create it: field workers, contractors, technicians, or anyone who needs a quick answer on the job but doesn't have a paid AI subscription or a DocInject account.
+
+| | DocInject users | Chat extension users |
+|---|---|---|
+| **Who they are** | Document authors and admins | Field workers, contractors, anyone with the link |
+| **How they authenticate** | Supabase account | No account — link contains the access key |
+| **What they can do** | Create, edit, and publish documents | Ask questions, read answers |
+| **Conversation history** | N/A | Session only — cleared when they close the tab |
+
+## Generate a chat link
+
+<Steps>
+  <Step title="Open Chat Extension settings">
+    Go to **Settings → Chat Extension**.
+  </Step>
+  <Step title="Generate a new link">
+    Click **Generate chat link**. DocInject creates a new API key scoped to your organization and builds the chat URL.
+  </Step>
+  <Step title="Save the link and QR code">
+    Copy the URL or screenshot the QR code — the access key is only shown once and cannot be retrieved later.
+  </Step>
+  <Step title="Distribute to your workforce">
+    Share the URL via message, email, or print the QR code and post it at the job site. Anyone who scans or opens it can chat immediately.
+  </Step>
+</Steps>
+
+<Warning>
+  Save your chat link before closing the panel. The underlying API key is not stored in a readable form and cannot be recovered — you would need to generate a new one.
+</Warning>
+
+## How workers use the chat
+
+Workers open the link in any mobile browser — no app to install, no account to create. They type a question in plain language and the AI searches your published documents to answer it.
+
+The chat interface:
+
+- Is optimized for mobile screens
+- Supports follow-up questions within the same session
+- Renders formatted answers including lists, steps, and headings from your SOPs
+- Clears history when the tab is closed (no data is stored per user)
+
+## Revoking access
+
+Each chat link is backed by a unique API key. To revoke access for anyone using a specific link, delete its key from the **Active chat links** list in **Settings → Chat Extension**. The link stops working immediately.
+
+You can generate multiple links — for example, one per team or job site — and revoke them independently.
+
+## What the AI can access
+
+The chat assistant reads only your organization's **published** documents. Draft documents are never accessible. Under the hood it uses the same document tools as the [MCP server](/integrations/mcp):
+
+| Tool | What it does |
+|---|---|
+| `search_documents` | Finds documents by title keyword |
+| `list_documents` | Lists all published documents |
+| `get_document_markdown` | Reads a document's full content |
+| `get_section` | Reads a specific section by title |
+
+The assistant decides which tools to call based on the question. Workers do not need to know which documents exist — they can just ask in natural language.
+
+## Security
+
+Chat links are **read-only**. Workers can ask questions and receive answers but cannot create, modify, or delete documents.
+
+Access is scoped to your organization. Workers with the link can only see documents published by your organization — not documents from other DocInject organizations.
+
+If a link is shared somewhere it shouldn't be, revoke it immediately from **Settings → Chat Extension** and generate a new one for legitimate users.

@@ -65,7 +65,8 @@
             "pages": [
               "sharing/embed",
               "sharing/export",
-              "sharing/share-links"
+              "sharing/share-links",
+              "sharing/chat-extension"
             ]
           },
           {
