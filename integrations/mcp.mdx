@@ -5,45 +5,61 @@ description: "Connect Claude, Cursor, and other AI assistants to your DocInject 
 
 DocInject exposes your SOPs, playbooks, guides, and handbooks as an MCP server so AI assistants can read, search, and summarize your documents in context. Once connected, you can ask Claude or Cursor questions like "what is our onboarding process?" and get answers grounded in your actual documentation.
 
+## Prerequisites
+
+An org admin must create an API key in **Settings → API Keys** before anyone on the team can connect. See [API keys](/integrations/api-keys) for instructions.
+
 ## Connect to Claude Desktop
 
-Claude Desktop connects via OAuth so your login credentials stay secure — no API keys to manage or paste into URLs.
+Add the following to your `claude_desktop_config.json` file. On macOS it is located at `~/Library/Application Support/Claude/claude_desktop_config.json`.
 
-<Steps>
-  <Step title="Open Claude Desktop settings">
-    In Claude Desktop, go to **Settings → Connectors**.
-  </Step>
-  <Step title="Add a new connector">
-    Click **Add connector**, choose **Remote**, and enter the server URL:
+```json
+{
+  "mcpServers": {
+    "docinject": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.docinject.com",
+        "--header",
+        "Authorization: Bearer YOUR_API_KEY"
+      ]
+    }
+  }
+}
+```
 
-    ```
-    https://mcp.docinject.com
-    ```
-  </Step>
-  <Step title="Enter the OAuth credentials">
-    When prompted for OAuth credentials, enter:
-
-    - **Client ID:** `docinject-mcp`
-    - **Client Secret:** `<see your DocInject admin for this value>`
-  </Step>
-  <Step title="Sign in and approve">
-    Claude Desktop will open a browser window. Sign in with your DocInject account and click **Allow access** to complete the connection.
-  </Step>
-</Steps>
-
-The OAuth flow scopes the connection to your DocInject account and organization. Claude Desktop stores the token locally and refreshes it automatically — you only need to authorize once.
+Replace `YOUR_API_KEY` with the key created by your admin. Restart Claude Desktop after saving the file.
 
 ## Connect to Cursor or other MCP clients
 
-For clients that support custom authorization headers, use your DocInject API key directly. API keys are generated in **Settings → API Keys**. See [API keys](/integrations/api-keys) for instructions.
+Most MCP clients that support `config.json`-style configuration work the same way — use `mcp-remote` as the transport:
+
+```json
+{
+  "mcpServers": {
+    "docinject": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.docinject.com",
+        "--header",
+        "Authorization: Bearer YOUR_API_KEY"
+      ]
+    }
+  }
+}
+```
+
+For clients that support custom HTTP headers natively, you can point them directly at the MCP endpoint:
 
 - **URL:** `https://mcp.docinject.com/mcp`
-- **Authorization header:** `Bearer <your-api-key>`
+- **Authorization header:** `Bearer YOUR_API_KEY`
 
-Or if your client accepts query parameters:
+Or with a query parameter as a fallback:
 
 ```
-https://mcp.docinject.com/mcp?key=<your-api-key>
+https://mcp.docinject.com/mcp?key=YOUR_API_KEY
 ```
 
 ## Available tools
@@ -84,9 +100,7 @@ Once connected, you can ask your AI assistant things like:
 
 The MCP server is **read-only**. Connected AI assistants can read and search your published documents but cannot create, edit, archive, or delete anything.
 
-**OAuth connections** (Claude Desktop) are scoped to your individual user account and organization. You can revoke access at any time by disconnecting the connector in Claude Desktop.
-
-**API key connections** are scoped to your organization. If a key is compromised, revoke it immediately from **Settings → API Keys** and generate a new one.
+API keys are scoped to your organization. If a key is compromised, revoke it immediately from **Settings → API Keys** and generate a new one.
 
 <Warning>
   Do not share API keys or commit them to source control. Anyone with a valid key can read your organization's published documents.
