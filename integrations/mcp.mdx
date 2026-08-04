@@ -11,45 +11,97 @@ An org admin must create an API key in **Settings → API Keys** before anyone o
 
 ## Connect to Claude Desktop
 
-Add the following to your `claude_desktop_config.json` file. On macOS it is located at `~/Library/Application Support/Claude/claude_desktop_config.json`.
+Add the following to your `claude_desktop_config.json` file and restart Claude Desktop.
 
-```json
-{
-  "mcpServers": {
-    "docinject": {
-      "command": "npx",
-      "args": [
-        "mcp-remote",
-        "https://mcp.docinject.com",
-        "--header",
-        "Authorization: Bearer YOUR_API_KEY"
-      ]
+<Tabs>
+  <Tab title="Mac / Linux">
+    Config file location: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+    ```json
+    {
+      "mcpServers": {
+        "docinject": {
+          "command": "npx",
+          "args": [
+            "mcp-remote",
+            "https://mcp.docinject.com",
+            "--header",
+            "Authorization: Bearer YOUR_API_KEY"
+          ]
+        }
+      }
     }
-  }
-}
-```
+    ```
+  </Tab>
+  <Tab title="Windows">
+    Config file location: `%APPDATA%\Claude\claude_desktop_config.json`
 
-Replace `YOUR_API_KEY` with the key created by your admin. Restart Claude Desktop after saving the file.
+    ```json
+    {
+      "mcpServers": {
+        "docinject": {
+          "command": "cmd",
+          "args": [
+            "/c",
+            "npx",
+            "mcp-remote",
+            "https://mcp.docinject.com",
+            "--header",
+            "Authorization: Bearer YOUR_API_KEY"
+          ]
+        }
+      }
+    }
+    ```
+
+    Windows requires the `cmd /c` wrapper because `npx` cannot be invoked directly when Node is installed in a path containing spaces (e.g. `C:\Program Files\nodejs`).
+  </Tab>
+</Tabs>
+
+Replace `YOUR_API_KEY` with the key created by your admin.
 
 ## Connect to Cursor or other MCP clients
 
-Most MCP clients that support `config.json`-style configuration work the same way — use `mcp-remote` as the transport:
+Most MCP clients that support `config.json`-style configuration work the same way.
 
-```json
-{
-  "mcpServers": {
-    "docinject": {
-      "command": "npx",
-      "args": [
-        "mcp-remote",
-        "https://mcp.docinject.com",
-        "--header",
-        "Authorization: Bearer YOUR_API_KEY"
-      ]
+<Tabs>
+  <Tab title="Mac / Linux">
+    ```json
+    {
+      "mcpServers": {
+        "docinject": {
+          "command": "npx",
+          "args": [
+            "mcp-remote",
+            "https://mcp.docinject.com",
+            "--header",
+            "Authorization: Bearer YOUR_API_KEY"
+          ]
+        }
+      }
     }
-  }
-}
-```
+    ```
+  </Tab>
+  <Tab title="Windows">
+    ```json
+    {
+      "mcpServers": {
+        "docinject": {
+          "command": "cmd",
+          "args": [
+            "/c",
+            "npx",
+            "mcp-remote",
+            "https://mcp.docinject.com",
+            "--header",
+            "Authorization: Bearer YOUR_API_KEY"
+          ]
+        }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
 
 For clients that support custom HTTP headers natively, you can point them directly at the MCP endpoint:
 
