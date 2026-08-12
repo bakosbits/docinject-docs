@@ -1,13 +1,13 @@
 ---
 title: "Use DocInject with AI assistants (MCP)"
-description: "Connect Claude, Cursor, and other AI assistants to your DocInject document library using the Model Context Protocol (MCP)."
+description: "Connect Claude, n8n, Gumloop, and other AI assistants to your DocInject document library using the Model Context Protocol (MCP)."
 ---
 
 DocInject exposes your SOPs, playbooks, guides, and handbooks as an MCP server so AI assistants can read, search, and summarize your documents in context. Once connected, you can ask Claude or Cursor questions like "what is our onboarding process?" and get answers grounded in your actual documentation.
 
 ## Prerequisites
 
-An org admin must create an API key in **Settings → API Keys** before anyone on the team can connect. See [API keys](/integrations/api-keys) for instructions.
+You or an administrator must first create an API key in **Profile → API Keys** before anyone on the team can connect. See [API keys](/integrations/api-keys) for instructions.
 
 ## Connect via OAuth (Claude.ai, mobile, and tablet apps)
 
@@ -15,12 +15,12 @@ Apps that support OAuth — including Claude.ai on the web, iOS, and Android —
 
 1. Open your AI assistant and navigate to the MCP or integrations settings.
 2. Add a new MCP server with the URL `https://mcp.docinject.com`.
-3. When prompted for a **Client ID**, enter your API key.
-4. The app completes the connection automatically — no browser login or approval screen appears.
+3. When prompted, enter your API key.
+4. The app completes the connection automatically - no browser login or approval screen appears.
 
-Your API key acts as your identity. The app exchanges it for an access token behind the scenes.
+Your API key acts as your company wide identity in the context of MCP. The app exchanges it for an access token behind the scenes.
 
-## Connect via config file (Claude Desktop, Cursor)
+## Connect via config file (Claude Desktop, etc.)
 
 Desktop clients that use a `config.json` file connect by passing the API key directly as a header.
 

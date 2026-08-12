@@ -13,7 +13,7 @@ API keys let external systems read your organization's published documents witho
 
 <Steps>
   <Step title="Open API Keys settings">
-    Go to **Settings → API Keys**.
+    Go to **Profile → API Keys**.
   </Step>
   <Step title="Enter a name">
     Type a descriptive name for the key so you can identify it later (for example, `zapier-integration` or `n8n-prod`).
@@ -58,10 +58,14 @@ entries = response.json()
 
 ## Delete an API key
 
-Go to **Settings → API Keys**, find the key you want to remove, and click **Delete**. Deletion takes effect immediately. Any requests using that key will receive a `401 Unauthorized` response.
+Go to **Profile → API Keys**, find the key you want to remove, and click **Delete**. Deletion takes effect immediately. Any requests using that key will receive a `401 Unauthorized` response.
 
 <Warning>
   Deleting a key cannot be undone. If an active integration is using the key, it will stop working immediately. Create a replacement key before deleting the old one.
+</Warning>
+
+<Warning>
+  A DocInject administrator can delete any API key assigned to your organization.
 </Warning>
 
 ## Next steps
