@@ -78,6 +78,40 @@ For clients that support custom HTTP headers natively, point them directly at th
 - **URL:** `https://mcp.docinject.com/mcp`
 - **Authorization header:** `Bearer YOUR_API_KEY`
 
+## Connect from automation platforms
+
+Tools like n8n and Gumloop support MCP natively and can connect directly to `https://mcp.docinject.com/mcp` using your API key. Other platforms (Zapier, Make, Pipedream) do not have native MCP support but can call the endpoint using standard HTTP requests.
+
+| Platform | Native MCP | How to connect |
+|---|---|---|
+| **n8n** | Yes | Use the MCP Client node — set the URL to `https://mcp.docinject.com/mcp` and add `Authorization: Bearer YOUR_API_KEY` as a header |
+| **Gumloop** | Yes | Add a new MCP tool and point it at `https://mcp.docinject.com/mcp` with your API key |
+| **Pipedream** | Partial | MCP support is available in AI actions; check their docs for the latest setup steps |
+| **Zapier** | No | Use the HTTP action to send JSON-RPC requests directly (see below) |
+| **Make** | No | Use the HTTP module to send JSON-RPC requests directly (see below) |
+
+### Calling tools over HTTP (Zapier, Make, and others)
+
+Platforms without native MCP can call your tools by sending a JSON-RPC request to `https://mcp.docinject.com/mcp`:
+
+```http
+POST https://mcp.docinject.com/mcp
+Authorization: Bearer YOUR_API_KEY
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "list_documents",
+    "arguments": {}
+  }
+}
+```
+
+Replace `list_documents` with any of the [available tools](#available-tools) and add the required arguments. Each call is stateless — no session setup is needed.
+
 ## Available tools
 
 Once connected, your AI assistant has access to the following tools:
